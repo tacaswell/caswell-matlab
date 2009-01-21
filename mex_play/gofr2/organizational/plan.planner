@@ -1,0 +1,89 @@
+<?xml version="1.0"?>
+<project name="" company="" manager="" phase="" project-start="20081201T000000Z" mrproject-version="2" calendar="1">
+  <properties/>
+  <phases/>
+  <calendars>
+    <day-types>
+      <day-type id="0" name="Working" description="A default working day"/>
+      <day-type id="1" name="Nonworking" description="A default non working day"/>
+      <day-type id="2" name="Use base" description="Use day from base calendar"/>
+    </day-types>
+    <calendar id="1" name="Default">
+      <default-week mon="0" tue="0" wed="0" thu="0" fri="0" sat="1" sun="1"/>
+      <overridden-day-types>
+        <overridden-day-type id="0">
+          <interval start="0800" end="1200"/>
+          <interval start="1300" end="1700"/>
+        </overridden-day-type>
+      </overridden-day-types>
+      <days/>
+    </calendar>
+  </calendars>
+  <tasks>
+    <task id="1" name="hash_shelf implementation" note="" work="28800" start="20081201T000000Z" end="20081201T170000Z" work-start="20081201T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+    <task id="2" name="g(r)" note="" work="86400" start="20081201T170000Z" end="20081204T170000Z" work-start="20081202T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+      <predecessors>
+        <predecessor id="1" predecessor-id="1" type="FS"/>
+      </predecessors>
+      <task id="3" name="hash_box g(r)" note="" work="57600" start="20081201T170000Z" end="20081203T170000Z" work-start="20081202T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <task id="4" name="free" note="" work="28800" start="20081201T170000Z" end="20081202T170000Z" work-start="20081202T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+        <task id="5" name="intel" note="" work="28800" start="20081202T170000Z" end="20081203T170000Z" work-start="20081203T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+          <predecessors>
+            <predecessor id="1" predecessor-id="4" type="FS"/>
+          </predecessors>
+        </task>
+      </task>
+      <task id="6" name="hash_shelf g(r)" note="" work="28800" start="20081203T170000Z" end="20081204T170000Z" work-start="20081204T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <predecessors>
+          <predecessor id="1" predecessor-id="3" type="FS"/>
+        </predecessors>
+      </task>
+    </task>
+    <task id="7" name="wrapper classes" note="" work="66600" start="20081201T000000Z" end="20081202T133000Z" work-start="20081201T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+      <task id="8" name="write spec for out" note="" work="21600" start="20081201T000000Z" end="20081201T150000Z" work-start="20081201T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+      <task id="9" name="peter_wrapper" note="" work="23400" start="20081201T150000Z" end="20081202T133000Z" work-start="20081201T150000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <predecessors>
+          <predecessor id="1" predecessor-id="8" type="FS"/>
+        </predecessors>
+      </task>
+      <task id="10" name="mex" note="" work="21600" start="20081201T150000Z" end="20081202T120000Z" work-start="20081201T150000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <predecessors>
+          <predecessor id="1" predecessor-id="8" type="FS"/>
+        </predecessors>
+      </task>
+    </task>
+    <task id="11" name="tracking code" note="" work="172800" start="20081204T170000Z" end="20081212T170000Z" work-start="20081205T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+      <predecessors>
+        <predecessor id="1" predecessor-id="1" type="FS"/>
+        <predecessor id="1" predecessor-id="7" type="FS"/>
+        <predecessor id="1" predecessor-id="2" type="FS"/>
+      </predecessors>
+      <task id="12" name="verify linked lists" note="" work="28800" start="20081204T170000Z" end="20081205T170000Z" work-start="20081205T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+      <task id="13" name="reimplement tracking algorithm" note="" work="144000" start="20081205T170000Z" end="20081212T170000Z" work-start="20081208T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <task id="14" name="free" note="" work="115200" start="20081205T170000Z" end="20081211T170000Z" work-start="20081208T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+          <predecessors>
+            <predecessor id="1" predecessor-id="12" type="FS"/>
+          </predecessors>
+        </task>
+        <task id="15" name="intel" note="" work="28800" start="20081211T170000Z" end="20081212T170000Z" work-start="20081212T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+          <predecessors>
+            <predecessor id="1" predecessor-id="14" type="FS"/>
+          </predecessors>
+        </task>
+      </task>
+    </task>
+    <task id="16" name="Nearest neighbor code" note="" work="28800" start="20081212T170000Z" end="20081215T170000Z" work-start="20081215T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+      <predecessors>
+        <predecessor id="1" predecessor-id="11" type="FS"/>
+      </predecessors>
+    </task>
+  </tasks>
+  <resource-groups/>
+  <resources>
+    <resource id="1" name="Thomas Caswell" short-name="me" type="1" units="0" email="" note="" std-rate="0"/>
+  </resources>
+  <allocations>
+    <allocation task-id="10" resource-id="1" units="100"/>
+    <allocation task-id="9" resource-id="1" units="100"/>
+  </allocations>
+</project>

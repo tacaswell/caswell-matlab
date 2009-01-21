@@ -1,0 +1,83 @@
+digraph G{
+
+	rankdir=LR
+	case ->hash_shelf
+	case ->hash_shelf_next
+	
+	case->hash_shelf_prev
+	
+
+	subgraph cluster_1{
+
+	node[style=filled]
+	
+	hash_shelf -> hash_box1
+	hash_shelf -> hash_box2
+
+	hash_box1 -> particle1
+	hash_box2 -> particle2
+	hash_box2 -> particle3
+	hash_box1 -> particle4
+
+
+	color=blue
+}
+subgraph cluster_2{	
+	hash_shelf_next -> hash_box1_2
+	hash_shelf_next -> hash_box2_2	
+	
+
+
+	hash_box2_2 -> next_part1
+	hash_box1_2 -> next_part2
+	hash_box1_2 -> next_part3
+	hash_box1_2 -> next_part4
+	}
+	
+subgraph cluster_3{
+	hash_shelf_prev ->hash_prevbox
+	hash_shelf_prev ->hash_prevbox2	
+
+	hash_prevbox->prev_part1
+	hash_prevbox->prev_part2
+	hash_prevbox->prev_part3
+	hash_prevbox2->prev_part4
+	}
+	
+ 	{prev_part1 ->particle1->next_part1 [color="red"]}
+	{prev_part2 ->particle2->next_part2 [color="red"]  }
+	{prev_part3 ->particle3->next_part3 [color="red"]}
+	{prev_part4 ->particle4->next_part4 [color="red"]}
+
+}
+digraph G2{
+	
+	subgraph cluster_0 {
+		style=filled;
+		color=lightgrey;
+		node [style=filled,color=white];
+		a0 -> a1 -> a2 -> a3;
+		label = "process #1";
+	}
+
+	subgraph cluster_1 {
+		node [style=filled];
+		b0 -> b1 -> b2 -> b3;
+		label = "process #2";
+		color=blue
+	}
+	
+	
+	start -> a0;
+	start -> b0;
+	a1 -> b3;
+	b2 -> a3;
+	a3 -> a0;
+	a3 -> end;
+	b3 -> end;
+
+	start [shape=Mdiamond];
+	end [shape=Msquare];
+}
+
+
