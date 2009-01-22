@@ -158,6 +158,9 @@ public:
   ///uses intel code
   void gofr_ipp(unsigned int max_d, unsigned int nbins, 
        vector<int> bin_count,vector<double> bin_r);
+
+  int gofr2D(double max_d, int nbins, hash_box* points,
+		       vector<double>& bin_count);
     
   ///@}
 };

@@ -76,7 +76,7 @@ void mexFunction( int nlhs, mxArray *plhs[],
 
   //  contents.insert(pair<wrapper::p_vals, int>(wrapper::d_unqid,4));
   //  contents[wrapper::d_index] = 5;
-   contents.insert(pair<wrapper::p_vals, int>(wrapper::d_trackid,3));
+  contents.insert(pair<wrapper::p_vals, int>(wrapper::d_trackid,3));
   params_matlab p_out = params_matlab(plhs,contents,mxGetM(*prhs),contents.size());
   //  master_box b = master_box(&p,&p,6);
 

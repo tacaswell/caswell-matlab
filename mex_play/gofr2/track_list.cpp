@@ -19,7 +19,7 @@ void track_list::link_next(list<particle_track*>* new_next){
 
     //have this function delete pos_link for the particles that get
     //dropped
-    make_tracks();
+    link_sub_ntwrk();
 
     clean_lists();
   }
@@ -32,16 +32,26 @@ void track_list::link_next(list<particle_track*>* new_next){
 }
 
 
-void track_list::make_tracks (){
+void track_list::link_sub_ntwrk (){
   vector<pair<particle_track*, particle_track*> > best, cur;
-  best.reserve(n_sub_net.size());
-  cur.reserve(n_sub_net.size());
-  //  cout<<n_sub_net.size()<<"\t"<<p_sub_net.size()<<endl;
+  int p_size = p_sub_net.size();
+  int n_size = n_sub_net.size();
+
+  int vec_size = (p_size>n_size) ? p_size : n_size;
+
+  best.reserve(vec_size);
+  cur.reserve(vec_size);
+
+
+  
+  
   //call the recursive monster
-  double min = max_disp_sq*n_sub_net.size();
+  double min = max_disp_sq*vec_size;
   recur_fnc_pn(&best,&cur,0,min,
 	       p_sub_net.begin(),p_sub_net.end());
-  
+
+
+
   link_pairs(best);
 
   
@@ -78,8 +88,8 @@ void track_list::link_pairs(vector<pair<particle_track*, particle_track*> >& in)
       if(tmp_next_particle!=NULL){
 	if(tmp_prev_particle == NULL){
 	  tracks->add_new_track(tmp_next_particle);
-	  //	  cout<<"Adding due to subnetwork failure"<<endl;
-	  //	  tmp_next_particle->print();
+	  //cout<<"Adding due to subnetwork failure"<<endl;
+	  //tmp_next_particle->print();
 	}
 	delete tmp_next_particle->p_pos_link;
 	tmp_next_particle->p_pos_link=NULL;
@@ -92,7 +102,7 @@ void track_list::link_pairs(vector<pair<particle_track*, particle_track*> >& in)
   
 
   //deals with any previous particles left in the sub network
-  // cout<<p_sub_net.size()<<endl;
+  // //cout<<p_sub_net.size()<<endl;
   if(p_sub_net.size()!=0){
     for(set<particle_track*>::iterator it = p_sub_net.begin();
 	it!=p_sub_net.end(); it++)
@@ -107,14 +117,14 @@ void track_list::link_pairs(vector<pair<particle_track*, particle_track*> >& in)
 
   //exact same as above, there has to be a cleaner way to write this
   if(n_sub_net.size()!=0){
-    //    cout<<n_sub_net.size()<<endl;
+    //    //cout<<n_sub_net.size()<<endl;
      for(set<particle_track*>::iterator it = n_sub_net.begin();
 	it!=n_sub_net.end(); it++)
       {
 	//start a new track
 	tracks->add_new_track(*it);
 	//cout<<"Adding due to particles left in subnetwork"<<endl;
-	//(*it)->print();
+	//	(*it)->print();
 	delete (*it)->p_pos_link;
 	(*it)->p_pos_link=NULL;
 	
@@ -130,16 +140,20 @@ void track_list::recur_fnc_pn(vector<pair<particle_track*, particle_track*> >* m
 			      double disp,double &min_disp,
 			      set<particle_track*>::iterator it,
 			      const set<particle_track*>::iterator& itend){
+  
+    
 
   list<pair<particle_track*, double> >::iterator it2;
   //this is a 'prev' particle
   particle_track* tmp_prev_particle = *it;
   //this is a next particle
   particle_track* tmp_next_particle = NULL;
+
   bool repeated_particle = false;
   //base case logic
   //beware of tricksy iterators
   if((++it)==itend){
+    //    cout<<"base case"<<endl;
     for(it2 = (tmp_prev_particle->n_pos_link)->begin();
 	it2!=(tmp_prev_particle->n_pos_link)->end();
 	it2++)
@@ -175,8 +189,9 @@ void track_list::recur_fnc_pn(vector<pair<particle_track*, particle_track*> >* m
       }
 	
     //deal with null connection
-    if(disp+ max_disp_sq <min_disp)
+    if((disp+ max_disp_sq) <min_disp)
       {
+	//	cout<<"base case null link"<<endl;
 	cur->push_back(pair<particle_track*,particle_track*>
 		       (tmp_prev_particle,NULL));
 	*min = *cur;
@@ -184,20 +199,23 @@ void track_list::recur_fnc_pn(vector<pair<particle_track*, particle_track*> >* m
 	cur->pop_back();
       }
     
-	
+    
+    
+
       
     return;
   }
 
   //normal case logic
   //may want to invert some of this logic to make it clearer
+  //  cout<<"normal case logic"<<endl;
   for(it2 = (tmp_prev_particle->n_pos_link)->begin();
       it2!=(tmp_prev_particle->n_pos_link)->end();
       it2++)
     {
       
       //if we arn't done, but the running total is higher than the minimum, bail
-      if(disp+(*it2).second > min_disp)
+      if((disp+(*it2).second) > min_disp)
 	continue;
 
       tmp_next_particle = (*it2).first;
@@ -225,8 +243,9 @@ void track_list::recur_fnc_pn(vector<pair<particle_track*, particle_track*> >* m
       cur->pop_back();
     }
     //deal with null connection
-  if(disp+ max_disp_sq <min_disp)
+  if((disp+ max_disp_sq) <min_disp)
     {
+      //      cout<<"normal case null link"<<endl;
       cur->push_back(pair<particle_track*,particle_track*>
 		     (tmp_prev_particle,NULL));
       recur_fnc_pn(min,cur,disp+max_disp_sq, min_disp, it, itend);
@@ -235,6 +254,8 @@ void track_list::recur_fnc_pn(vector<pair<particle_track*, particle_track*> >* m
     }
   
   //deal with null connection
+
+
   return;
 
 }
@@ -253,6 +274,7 @@ void track_list::recur_fnc_np(  vector<pair<particle_track*, particle_track*> >*
   bool repeated_particle = false;
   //base case logic
   //beware of tricksy iterators
+ 
   if((it++)==itend){
     for(it2 = (tmp_next_particle->p_pos_link)->begin();
 	it2!=(tmp_next_particle->p_pos_link)->end();
@@ -279,6 +301,8 @@ void track_list::recur_fnc_np(  vector<pair<particle_track*, particle_track*> >*
 	  
 	    cur->push_back(pair<particle_track*,particle_track*>
 			   (tmp_prev_particle,tmp_next_particle));
+
+	    
 	    *min = *cur;
 	    min_disp = disp + ((*it2).second);
 	    cur->pop_back();
@@ -333,6 +357,7 @@ void track_list::recur_fnc_np(  vector<pair<particle_track*, particle_track*> >*
     //deal with null connection
   if(disp+ max_disp_sq <min_disp)
     {
+      
       cur->push_back(pair<particle_track*,particle_track*>
 		     (NULL,tmp_next_particle));
       recur_fnc_np(min,cur,disp+(*it2).second, min_disp, it, itend);
@@ -409,8 +434,8 @@ void track_list::trivial_bonds(){
       //as far as the algorithm is concerned
       if((tmp_next_particle->p_pos_link)==NULL){
 	  tracks->add_new_track(tmp_next_particle);
-	  //cout<<"Adding due to trivial bond"<<endl;
-	  //tmp_next_particle->print();
+// 	  cout<<"Adding due to trivial bond"<<endl;
+// 	  tmp_next_particle->print();
       }
       else if( ((tmp_next_particle)->p_pos_link)->size()==1)
 	{

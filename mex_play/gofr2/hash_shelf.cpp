@@ -149,8 +149,8 @@ void hash_shelf::rehash(unsigned int PPB){
     for(vector<particle_base*>::const_iterator it2 = (*it).begin();
 	it2<(*it).end(); it2++)
       push(*it2);
-    
-  
+ 
+
 
 }
 

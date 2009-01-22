@@ -25,7 +25,7 @@ void hash_case::rehash(unsigned int ppb){
 
 void hash_case::link(double max_range, track_shelf& tracks){
 
-  this->rehash(1.2*max_range);
+  this->rehash((int)(1.2*max_range));
 
   vector<hash_shelf*>::iterator it = h_case.begin();
 

@@ -53,7 +53,7 @@ protected:
      Does the perumtation on the subnetwork lists and sets all the
      particles
    */
-  void make_tracks();
+  void link_sub_ntwrk();
   
   
   ///finds and removes trivial bonds
