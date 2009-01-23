@@ -112,8 +112,8 @@ void track_list::link_pairs(vector<pair<particle_track*, particle_track*> >& in)
       if(tmp_next_particle!=NULL){
 	if(tmp_prev_particle == NULL){
 	  tracks->add_new_track(tmp_next_particle);
-	  cout<<"Adding due to subnetwork failure"<<endl;
-	  tmp_next_particle->print();
+// 	  cout<<"Adding due to subnetwork failure"<<endl;
+// 	  tmp_next_particle->print();
 	}
 	delete tmp_next_particle->p_pos_link;
 	tmp_next_particle->p_pos_link=NULL;
@@ -147,8 +147,8 @@ void track_list::link_pairs(vector<pair<particle_track*, particle_track*> >& in)
       {
 	//start a new track
 	tracks->add_new_track(*it);
-	cout<<"Adding due to particles left in subnetwork"<<endl;
-		(*it)->print();
+	// cout<<"Adding due to particles left in subnetwork"<<endl;
+	// (*it)->print();
 	delete (*it)->p_pos_link;
 	(*it)->p_pos_link=NULL;
 	
@@ -458,8 +458,8 @@ void track_list::trivial_bonds(){
       //as far as the algorithm is concerned
       if((tmp_next_particle->p_pos_link)==NULL){
 	  tracks->add_new_track(tmp_next_particle);
- 	  cout<<"Adding due to trivial bond"<<endl;
- 	  tmp_next_particle->print();
+//  	  cout<<"Adding due to trivial bond"<<endl;
+//  	  tmp_next_particle->print();
       }
       else if( ((tmp_next_particle)->p_pos_link)->size()==1)
 	{

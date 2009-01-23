@@ -16,7 +16,7 @@ MEXSUFFIX  = mexa64
 MATLABHOME = /usr/local/matlab
 MEX        = mex
 CXX        = g++
-CXXFLAGS = -g -fno-inline -Wall -ansi -D_GNU_SOURCE -fPIC	\
+CXXFLAGS = -O3 -fno-inline -Wall -ansi -D_GNU_SOURCE -fPIC	\
 -fno-omit-frame-pointer -pthread  $(INCLUDE) 
 #-DMX_COMPAT_32
 LIBS       = -lm

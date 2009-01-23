@@ -31,6 +31,11 @@
 
 
 using namespace tracking;
+
+
+
+
+
 //using std::cout;
 ///Set the index of a particle
 void wrapper_o_file::store_data(int index,int pos, double val){
@@ -39,7 +44,7 @@ void wrapper_o_file::store_data(int index,int pos, double val){
     (data.at(index)).at(pos) = val;
     
   }
-  catch(std::out_of_range oor){
+  catch(...){
     cout<<"SOMETHING BORKE"<<endl;
     data.resize(index+1);
     (data.at(index)).resize(cols);
@@ -94,7 +99,8 @@ wrapper_o_file::wrapper_o_file(params_file* param){
 
 void wrapper_o_file::finalize(){
   ofstream f_out(fname.data());
-  
+  cout<<"writting out the file"<<endl;
+  cout<<fname<<endl;
   for(unsigned int j = 0; j<data.size(); j++){
     for(unsigned int k = 0; k<(data.at(j)).size(); k++){
       f_out<<(data.at(j)).at(k)<<"\t";

@@ -23,6 +23,7 @@
 //licensors of this Program grant you additional permission to convey
 //the resulting work.
 #include "hash_case.h"
+#include <stdexcept> // out_of_range exception
 using namespace tracking;
 
 void hash_case::print(){
@@ -49,21 +50,28 @@ void hash_case::rehash(unsigned int ppb){
 
 void hash_case::link(double max_range, track_shelf& tracks){
 
-  this->rehash((int)(1.2*max_range));
+  //doing this rehash takes a long time for large data sets, better to just
+  //get it right begin with
+  //this->rehash((int)(1.2*max_range));
+
+  //  cout<<"rehashed"<<endl;
 
   vector<hash_shelf*>::iterator it = h_case.begin();
 
   //generate first list
   list<particle_track*>* t_list = (*it)->shelf_to_list();
 
+  //  cout<<"generated list 1"<<endl;
   //fill first track pos_link_next
   fill_pos_link_next(t_list,++it,max_range);
+  //  cout<<"get links "<<endl;
 
   for(list<particle_track*>::iterator it2 = t_list ->begin();
       it2!=t_list->end(); it2++)
     tracks.add_new_track(*it2);
   
-
+  //  cout<<"populated initial tracks"<<endl;
+  
   //  tracks.print();
   
   //make local track_list object
@@ -112,21 +120,23 @@ void hash_case::fill_pos_link_next(list<particle_track*>* tlist,
   //square the maximum dispalcement to save having to take square roots later
   max_disp = max_disp*max_disp;
 
-
+  
   //loop over partciles in handed in list
   for(list<particle_track*>::iterator it = tlist->begin();
             it != tlist->end(); it++)
     {
+    
       tmp_particle1 = (*it);
       tmp_box.clear();
-
+      
       (*in_it)->get_region(*it,&tmp_box, 1);
 
       //      cout<<"box size: "<<tmp_box.get_size()<<endl;
       
       //allocates a list
       tmp_list = tmp_box.box_to_list();
-     
+      
+
       //loop over the list to be added to the current particle to add
       //the the current particle as a previous to each of them and
       //remove the ones that are too far away
@@ -154,6 +164,8 @@ void hash_case::fill_pos_link_next(list<particle_track*>* tlist,
 	  
 	}
       }
+
+      
       if(tmp_particle1->n_pos_link!=NULL)
 	(tmp_particle1->n_pos_link)->sort(lt_pair_tac);
       //deletes the list
@@ -161,6 +173,7 @@ void hash_case::fill_pos_link_next(list<particle_track*>* tlist,
       tmp_list = NULL;
 
     }
+  //  cout<<"finished loops"<<endl;
 }
 
 

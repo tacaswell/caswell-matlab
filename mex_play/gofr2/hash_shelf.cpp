@@ -23,6 +23,8 @@
 //licensors of this Program grant you additional permission to convey
 //the resulting work.
 #include "hash_shelf.h"
+#include <stdexcept> // out_of_range exception
+
 
 ///Constructor.
 /**
@@ -128,26 +130,36 @@ void hash_shelf::get_region( int n, int m,
 
 
    int j_bot = (((n-range)>=0)?(n-range):0);
-   int j_top = ((n+range)<(int)hash_dims[0]
+   int j_top = ((n+range)<((int)hash_dims[0]-1)
 		?(n+range+1):
-		hash_dims[0]);
+		(hash_dims[0]-1));
    int k_bot = ((m-range)>0?(m-range):0);
-   int k_top = ((m+range)<(int)hash_dims[1]?(m+range+1):hash_dims[1]);
+   int k_top = ((m+range)<((int)hash_dims[1]-1)?(m+range+1):(hash_dims[1]-1));
 	    
-    cout<<"n: "<<n<<"\t"
-        <<"m: "<<m<<"\t"
-        <<j_bot<<"\t"
-        <<j_top<<"\t"
-        <<k_bot<<"\t"
-        <<k_top<<"\t"<<endl;
+//     cout<<"n: "<<n<<"\t"
+//         <<"m: "<<m<<"\t"
+//         <<j_bot<<"\t"
+//         <<j_top<<"\t"
+//         <<k_bot<<"\t"
+//         <<k_top<<"\t"<<endl;
 
-   for( int j = j_bot; j<j_top;j++){
-     for( int k = k_bot; k<k_top;k++){
-      
-      box->append(&(hash.at(j+hash_dims[0]*k)));
-    }
-   }
 
+
+     for( int j = j_bot; j<=j_top;j++){
+       for( int k = k_bot; k<=k_top;k++){
+
+	 box->append(&(hash.at(j+hash_dims[0]*k)));
+	 //       cout<<j<<"\t"<<k<<endl;
+	 //       cout<<"appending box at: "<<j+hash_dims[0]*k<<endl;
+
+       }
+     }
+     
+     //   cout<<"+++++++++++++++"<<endl;
+   
+
+
+     
 }
 
 
@@ -160,6 +172,8 @@ void hash_shelf::get_region( int n,
 
 void hash_shelf::get_region( particle_base* n,
 		   hash_box* box, int range){
+//   cout<<"+++++++++++++++"<<endl;
+//   n->print();
   get_region(hash_function(n),box,range);
 
   }

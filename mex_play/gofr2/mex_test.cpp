@@ -100,8 +100,9 @@ void mexFunction( int nlhs, mxArray *plhs[],
 
   //  contents.insert(pair<wrapper::p_vals, int>(wrapper::d_unqid,4));
   //  contents[wrapper::d_index] = 5;
-  contents.insert(pair<wrapper::p_vals, int>(wrapper::d_trackid,3));
-  params_matlab p_out = params_matlab(plhs,contents,mxGetM(*prhs),contents.size());
+  //  contents.insert(pair<wrapper::p_vals, int>(wrapper::d_trackid,3));
+  //  params_matlab p_out = params_matlab(plhs,contents,mxGetM(*prhs),contents.size());
+  params_file p_out = params_file(mxGetM(*prhs),contents.size(),contents);
   //  master_box b = master_box(&p,&p,6);
 
   master_box_t<particle_track>bt(&p_in,&p_out);
@@ -110,19 +111,20 @@ void mexFunction( int nlhs, mxArray *plhs[],
   //  for(int t = 0; t<3;t++)	
   //    dims.push_back(80);    
 
-  dims.push_back(510);
-  dims.push_back(1400);
+  dims.push_back(512);
+  dims.push_back(1385);
 
   //  dims.push_back(50);
 
   cout<<"total number of particles is: "<<bt.size()<<endl;;
 
-  hash_case s(bt,dims,20,1462);
+  hash_case s(bt,dims,5,1462);
 
   //  s.print();
   track_shelf tracks;
 
-  s.link(5,tracks);
+  //  s.link(5,tracks);
+
 
   cout<<endl;
    bt.initialize_out();
