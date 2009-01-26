@@ -35,17 +35,6 @@ namespace tracking{
 
 
 class track_box{
-protected:
-  ///Pointer to first particle in track
-  particle_track * t_first;
-  //pointer to last particle in track
-  particle_track * t_last;
-  ///length of path
-  int length;
-  ///the number of tracks identified used for unique id's
-  static int running_count;
-  ///unique ID of the track
-  int id;
 public:
   ///retruns the nth particle of the track.
   ///returns null if n > length
@@ -68,6 +57,24 @@ public:
   int get_id(){return id;}
 
   virtual ~track_box(){};
+  
+  /**
+     outputs the particles in the track to what ever output
+     wrapper they are pointing at
+   */
+  void set_track();
+
+protected:
+  ///Pointer to first particle in track
+  particle_track * t_first;
+  //pointer to last particle in track
+  particle_track * t_last;
+  ///length of path
+  int length;
+  ///the number of tracks identified used for unique id's
+  static int running_count;
+  ///unique ID of the track
+  int id;
 
 };
 }

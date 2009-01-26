@@ -117,9 +117,7 @@ void mexFunction( int nlhs, mxArray *plhs[],
 
   //output to matlab
   bt.initialize_out();
-  for (int j = 0;j<bt.size();j++){
-    (bt.get_particle(j))->set_particle();
-  }
+  tracks.set_shelf();
   bt.finalize_out();
   
   return;

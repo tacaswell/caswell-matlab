@@ -37,18 +37,7 @@ namespace tracking{
 */
 
 class track_shelf{
-protected:
-  /** 
-      Map to store locations of tracks.  Map used instead of a vector
-      because each track has a unique number set on construction, but
-      I want to be able to nuke tracks entirely, with out having to
-      store empty boxes or deal with renumbering all tracks.  There is
-      a hit on the access time (logrithmic vs constant) comapred to
-      using a vector, but I think the time saved (both at run time and
-      coding time) by not having the extra baggage to keep track of
-      everything is worth it.
-  */
-  map<int,track_box*> track_map;
+
 public:
   /**
      Add a track to the shelf.  Evnetually this function will be the only
@@ -83,11 +72,27 @@ public:
 
   void print();
 
+  /**
+     Sets all of the particles in shelf to their respective wrappers
+  */
+  void set_shelf();
+
   ///Constructor
   track_shelf(){};
   ///Destructor.  Destroys all of the tracks contained in the shelf
   ~track_shelf();
-  
+protected:
+  /** 
+      Map to store locations of tracks.  Map used instead of a vector
+      because each track has a unique number set on construction, but
+      I want to be able to nuke tracks entirely, with out having to
+      store empty boxes or deal with renumbering all tracks.  There is
+      a hit on the access time (logrithmic vs constant) comapred to
+      using a vector, but I think the time saved (both at run time and
+      coding time) by not having the extra baggage to keep track of
+      everything is worth it.  
+  */
+  map<int,track_box*> track_map;  
 };
 }
 

@@ -59,10 +59,24 @@ void track_box::push_back(particle_track * next){
     return;
   ++length;
   //use the level of indrection so that we don't
-  //have to reimplement the canity checking
+  //have to reimplement the sanity checking
   //at this point
   t_last->set_next(next);
   next->set_prev(t_last);
   next->set_track(this);
   t_last = next;
+}
+
+
+//this needs some sanity checking/error handling
+void track_box::set_track(){
+  particle_track * current_particle = t_first;
+  
+  while(current_particle !=NULL){
+    current_particle -> set_particle();
+    current_particle = current_particle->get_next();
+  }
+
+  
+  
 }

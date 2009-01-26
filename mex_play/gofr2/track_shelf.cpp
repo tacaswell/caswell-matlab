@@ -73,3 +73,11 @@ void track_shelf::print(){
      (it->second)->print();
    }
 }
+
+void track_shelf::set_shelf(){
+  for(map<int,track_box* >::iterator it = track_map.begin();
+      it!= track_map.end(); it++)
+    ((*it).second)->set_track();
+
+	
+}
