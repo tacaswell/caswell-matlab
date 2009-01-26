@@ -77,6 +77,9 @@ void wrapper_o_matlab::reset_wrapper(params * param_in){
 };
 
 void wrapper_o_matlab::start_new_particle(){
+  if(part_open)
+    cout<<"particle already open w_o_m"<<endl;
+
   part_index = seq_count++;
   if(seq_count>rows){
     //deal with error

@@ -43,19 +43,19 @@ public:
   string fname;
 
   ///constructor
-  params_file(int a, int b, string  s, std::map<wrapper::p_vals,int> contents )
+  params_file(int a,  string  s, std::map<wrapper::p_vals,int> contents )
     :params(contents)
   {
     rows = a;
-    cols = b;
+    cols = contents.size();
     fname = s;
   }
 
   ///constructor with default file name
-  params_file(int a, int b, std::map<wrapper::p_vals,int> contents )
+  params_file(int a,  std::map<wrapper::p_vals,int> contents )
     :params(contents){
     rows = a;
-    cols = b;
+    cols = contents.size();
     fname = string("dummy.txt");
   }
 

@@ -93,12 +93,50 @@ void wrapper_o_file::set_value(int ind, wrapper::p_vals type,double val){
   (data.at(ind)).at(contents[type]) = val;
 }
 
-wrapper_o_file::wrapper_o_file(params_file* param){
-   initialize(param);
+wrapper_o_file::wrapper_o_file(params_file* param):wrapper_o(param->contains),
+						   fname(param->fname){
+  
 }
 
 void wrapper_o_file::finalize(){
-  ofstream f_out(fname.data());
+
+}
+
+void wrapper_o_file::print(int ind){
+  for(unsigned int k = 0; k<(data.at(ind)).size(); k++)
+    cout<<(data.at(ind)).at(k)<<"\t";
+  cout<<endl;
+}
+
+
+void wrapper_o_file::initialize_wrapper(){
+  data.reserve(rows);
+  f_out.open(fname.data());
+  wrapper_open = true;
+}
+
+void wrapper_o_file::start_new_particle(){
+  if(part_open){
+    cout<<"particle already open w_o_f"<<endl;
+    return;
+  }
+  
+  data.clear();
+  
+}
+
+void wrapper_o_file::set_new_value(wrapper::p_vals type, double val){
+  
+}
+void wrapper_o_file::end_new_particle(){
+
+  for(vecotr<double>::iterator it = data.begin(); it!=data.end(); it++)
+    f_out<<(*it)<<"\t";
+  f_out<<endl;
+}
+void wrapper_o_file::finalize_wrapper(){
+  
+  
   cout<<"writting out the file"<<endl;
   cout<<fname<<endl;
   for(unsigned int j = 0; j<data.size(); j++){
@@ -111,12 +149,14 @@ void wrapper_o_file::finalize(){
   }
 
   f_out.close();
+  
+  wrapper_open = false;
+
+  //don't need to do anything with memory as all of that is handed off
+  //to using the local variables
 }
 
-void wrapper_o_file::print(int ind){
-  for(unsigned int k = 0; k<(data.at(ind)).size(); k++)
-    cout<<(data.at(ind)).at(k)<<"\t";
-  cout<<endl;
+void wrapper_o_file::reset_wrapper(params * param){
 }
 
 

@@ -51,8 +51,11 @@ protected:
   ///File name to write data to
   string fname;
 
-  ///Data structure to hold all of the data
-  vector<vector<double> > data;
+  ///Temperoray data structure for holding current 
+  vector<double > data;
+
+  ///File stream to write data into
+  ofstream f_out;
 
   ///number of fields per particle
   int cols;
@@ -89,11 +92,11 @@ public:
 
 
   void set_new_value(wrapper::p_vals type, double val){};
-  void end_new_particle(){};
-  void finalize_wrapper(){};
-  void initialize_wrapper(){};
-  void reset_wrapper(params * param){};
-  void start_new_particle(){};
+  void end_new_particle();
+  void finalize_wrapper();
+  void initialize_wrapper();
+  void reset_wrapper(params * param);
+  void start_new_particle();
   
   
   ///writes data structure out to disk
