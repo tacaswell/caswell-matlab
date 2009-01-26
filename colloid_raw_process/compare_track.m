@@ -1,4 +1,4 @@
-function out = compare_track(track1, track2)
+function [out out2] = compare_track(track1, track2)
 %o function comapre_track(track1, track2)
 %o summary: comapres the track identification in the case where
 % the ids assigned to the tracks are different.  Not very clever at the moment
@@ -15,7 +15,8 @@ function out = compare_track(track1, track2)
 
     dif = 0;
     count = 1;
-    outs = -ones(max(track1(:,end)),1q);
+    out = -ones(max(track1(:,end)),1);
+    out2 = -ones(max(track1(:,end)),1);
     for j = 1:max(track1(:,end))
         tmp = track1(1+t1_edge(j),1:3);
         if(mod(j,50)==0)
@@ -28,6 +29,10 @@ function out = compare_track(track1, track2)
                          ( t2_back(k) - t2_front(k)+1);
                 %dif=dif +sum(sum(track1((1+t1_edge(j)):(t1_edge(j+1)),1:3)- ...
                 %                   track2((1+t2_edge(k)):(t2_edge(k+1)),1:3)));
+                if(out(j)==0)
+                    out2(j) = sum(sum((track1((t1_edge(j)+1):t1_edge(j+1),[1:3]) ...
+                                      -track2(t2_front(k):t2_back(k),[1:3]))~=0));
+                end
                 count = count+1;
                 t2_front = t2_front([1:(k-1) k+1:end]);
                 t2_back = t2_back([1:(k-1) k+1:end]);
