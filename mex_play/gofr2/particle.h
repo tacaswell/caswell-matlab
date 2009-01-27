@@ -108,7 +108,7 @@ public:
 
   ///Store this particle in the output wrapper structure
   virtual void set_particle();
-  virtual void set_particle_old();
+  //  virtual void set_particle_old();
   /**
      Retruns the distance from this particle to part_in
    */

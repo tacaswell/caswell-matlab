@@ -127,12 +127,12 @@ void mexFunction( int nlhs, mxArray *plhs[],
 
 
   cout<<endl;
-   bt.initialize_out();
-   for (int j = 0;j<bt.size();j++){
-     //    (bt.get_particle(j))->print();
-     (bt.get_particle(j))->set_particle();
-   }
-   bt.finalize_out();
+  bt.initialize_out();
+  for (int j = 0;j<bt.size();j++){
+    //    (bt.get_particle(j))->print();
+    (bt.get_particle(j))->set_particle();
+  }
+  bt.finalize_out();
   
  //  vector<double> bin_c, bin_r; 
 //   s.gofr(9, 20, bin_c, bin_r);

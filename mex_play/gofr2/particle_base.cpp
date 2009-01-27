@@ -65,15 +65,16 @@ double particle_base::distancesq(particle_base* part_in){
 }
 
 
-void particle_base::set_particle_old(){
-  int tmp_ind = wrapper_out->add_particle();
-  for(set<wrapper::p_vals>::iterator it = data_types_old.begin();
-      it!=data_types_old.end(); it++)
-    wrapper_out->set_value(tmp_ind, *it, get_value(*it));
-}
+// void particle_base::set_particle_old(){
+//   int tmp_ind = wrapper_out->add_particle();
+//   for(set<wrapper::p_vals>::iterator it = data_types_old.begin();
+//       it!=data_types_old.end(); it++)
+//     wrapper_out->set_value(tmp_ind, *it, get_value(*it));
+// }
 
 
 void particle_base::set_particle(){
+
   wrapper::p_vals tmp_type;
   map<wrapper::p_vals,int> * map_tmp = wrapper_out->get_map_ptr();
   wrapper_out->start_new_particle();

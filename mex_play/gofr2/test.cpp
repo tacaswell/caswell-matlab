@@ -89,10 +89,11 @@ int main(){
     contents.insert(it3,pair<wrapper::p_vals, int>(*it1, *it2));
 
   
-  params_ning p = params_ning(100*1000,6,contents);
+  params_ning p_in = params_ning(100*1000,contents);
+  params_file p_out = params_file(100*1000,contents);
     //  master_box b = master_box(&p,&p,6);
 
-  master_box_t<particle_track>bt(&p,&p);
+  master_box_t<particle_track>bt(&p_in,&p_out);
   //  for (int j = 0;j<25;j++)
   // (bt.get_particle(j))->print();
 
@@ -101,8 +102,19 @@ int main(){
   for(int t = 0; t<3;t++)
     dims.push_back(70);
 
-  hash_case3d s(bt,dims,5,100);
-    
+  //  hash_case3d s(bt,dims,5,100);
+  
+  //  cout<<"hashed"<<endl;
+
+  bt.initialize_out();
+  cout<<"intialized"<<endl;
+ for (unsigned int j = 0;j<bt.size();j++){
+   //    (bt.get_particle(j))->print();
+   (bt.get_particle(j))->set_particle();
+}
+
+  bt.finalize_out();
+
   //s.print();
 
   //  hash_shelf* f = s.return_shelf(0);
@@ -111,9 +123,9 @@ int main(){
   //  f->get_region(5,5,&tmp,1);
   //  tmp.print();
   
-  track_shelf tracks;
+  //  track_shelf tracks;
 
-  s.link(4,tracks);
+  //  s.link(4,tracks);
   //  tracks.print();
 
 // vector<double> bin_c, bin_r; 

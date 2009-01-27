@@ -33,8 +33,8 @@ namespace tracking{
 */
 class params_ning_hd :public params_file{
 public:
-  params_ning_hd(int a, int b,std::map<wrapper::p_vals,int> contents)
-    :params_file(a,b,contents)
+  params_ning_hd(int a ,std::map<wrapper::p_vals,int> contents)
+    :params_file(a,contents)
   {
     fname = string("new_ning.txt");
   }

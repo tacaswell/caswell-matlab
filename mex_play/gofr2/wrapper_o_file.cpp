@@ -26,7 +26,7 @@
 #include "params_file.h"
 #include <iostream>
 #include <stdexcept> // out_of_range exception
-#include <fstream>
+
 
 
 
@@ -36,30 +36,14 @@ using namespace tracking;
 
 
 
-//using std::cout;
-///Set the index of a particle
-void wrapper_o_file::store_data(int index,int pos, double val){
- 
- try{
-    (data.at(index)).at(pos) = val;
-    
-  }
-  catch(...){
-    cout<<"SOMETHING BORKE"<<endl;
-    data.resize(index+1);
-    (data.at(index)).resize(cols);
-    store_data(index,pos, val);
-  }
-}
-
 
 ///print out a representation of the data
 void wrapper_o_file::print(){
-  for(unsigned int j = 0; j<data.size();j++){
-    for(unsigned int k = 0; k<(data.at(j)).size();k++)
-      cout<<(data.at(j)).at(k)<<" ";
-    cout<<endl;
-  }
+//   for(unsigned int j = 0; j<data.size();j++){
+//     for(unsigned int k = 0; k<(data.at(j)).size();k++)
+//       cout<<(data.at(j)).at(k)<<" ";
+//     cout<<endl;
+//   }
 }
  
 void wrapper_o_file::initialize(params_file* param){
@@ -84,34 +68,33 @@ void wrapper_o_file::initialize(params_file* param){
 
 }
 
-int wrapper_o_file::add_particle(){
-  data.push_back(vector<double> (cols,0));
-  return seq_count++;
-}
+// int wrapper_o_file::add_particle(){
+//   data.push_back(vector<double> (cols,0));
+//   return seq_count++;
+// }
 
-void wrapper_o_file::set_value(int ind, wrapper::p_vals type,double val){
-  (data.at(ind)).at(contents[type]) = val;
-}
+// void wrapper_o_file::set_value(int ind, wrapper::p_vals type,double val){
+//   (data.at(ind)).at(contents[type]) = val;
+// }
 
-wrapper_o_file::wrapper_o_file(params_file* param):wrapper_o(param->contains),
-						   fname(param->fname){
+wrapper_o_file::wrapper_o_file(params_file* param):wrapper_o_base(param->contains),
+						   fname(param->fname),cols((param->contains).size()){
   
 }
 
-void wrapper_o_file::finalize(){
+// void wrapper_o_file::finalize(){
 
-}
+// }
 
 void wrapper_o_file::print(int ind){
-  for(unsigned int k = 0; k<(data.at(ind)).size(); k++)
-    cout<<(data.at(ind)).at(k)<<"\t";
-  cout<<endl;
+//   for(unsigned int k = 0; k<(data.at(ind)).size(); k++)
+//     cout<<(data.at(ind)).at(k)<<"\t";
+//   cout<<endl;
 }
 
 
 void wrapper_o_file::initialize_wrapper(){
-  data.reserve(rows);
-  f_out.open(fname.data());
+  f_out.open(fname.c_str());
   wrapper_open = true;
 }
 
@@ -120,40 +103,49 @@ void wrapper_o_file::start_new_particle(){
     cout<<"particle already open w_o_f"<<endl;
     return;
   }
+
+
+  data.resize(cols,-1);
+  part_open = true;
   
-  data.clear();
   
 }
 
 void wrapper_o_file::set_new_value(wrapper::p_vals type, double val){
   
+  int data_posistion = data_layout[type];
+  if(data_posistion >=0){
+    if(part_open){
+      //change to [] eventually?
+      data.at(data_posistion) = val;
+      return;
+    }
+    //deal with fail condition
+    cout<<"no particle is open"<<endl;
+  }
+  cout<<"wrapper doesn't have this data_type"<<endl;
 }
 void wrapper_o_file::end_new_particle(){
 
-  for(vecotr<double>::iterator it = data.begin(); it!=data.end(); it++)
-    f_out<<(*it)<<"\t";
+  for(vector<double>::iterator it = data.begin(); it!=data.end(); it++)
+      f_out<<(*it)<<"\t";
+
   f_out<<endl;
+
+  data.clear();
+  part_open = false;
+
 }
 void wrapper_o_file::finalize_wrapper(){
   
   
   cout<<"writting out the file"<<endl;
   cout<<fname<<endl;
-  for(unsigned int j = 0; j<data.size(); j++){
-    for(unsigned int k = 0; k<(data.at(j)).size(); k++){
-      f_out<<(data.at(j)).at(k)<<"\t";
-      cout<<(data.at(j)).at(k)<<"\t";
-    }
-    f_out<<endl;
-    cout<<endl;
-  }
 
   f_out.close();
   
   wrapper_open = false;
 
-  //don't need to do anything with memory as all of that is handed off
-  //to using the local variables
 }
 
 void wrapper_o_file::reset_wrapper(params * param){

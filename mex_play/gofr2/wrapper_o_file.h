@@ -23,7 +23,7 @@
 //licensors of this Program grant you additional permission to convey
 //the resulting work.
 #include "wrapper_o.h"
-
+#include <fstream>
 
 #ifndef WRAPPER_O_FILE
 #define WRAPPER_O_FILE
@@ -70,10 +70,12 @@ protected:
   ///Map that stores what values go where in what columns
   map<wrapper::p_vals, int> contents;
 
+
+
 public:
   ///adds another particle to the data table and fills it with
   ///zero values.  Returns the index of the new particle
-  int add_particle();
+  //  int add_particle();
 
   ///print out a representation of the data
   void print();
@@ -87,11 +89,11 @@ public:
 
   int num_entries(){return data.size();}
 
-  virtual void set_value(int ind, wrapper::p_vals type,double val);
+  //  virtual void set_value(int ind, wrapper::p_vals type,double val);
 
 
 
-  void set_new_value(wrapper::p_vals type, double val){};
+  void set_new_value(wrapper::p_vals type, double val);
   void end_new_particle();
   void finalize_wrapper();
   void initialize_wrapper();
@@ -100,7 +102,7 @@ public:
   
   
   ///writes data structure out to disk
-  void finalize();
+  //  void finalize();
 };
 }
 

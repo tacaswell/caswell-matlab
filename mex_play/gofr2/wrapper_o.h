@@ -96,7 +96,7 @@ public:
   ///Sets the value of 'type' for particle 'ind' to be 'val'
   ///this assume random acess, gives too much control away from this
   //class
-  virtual void set_value(int ind, wrapper::p_vals type,double val)=0;
+  //virtual void set_value(int ind, wrapper::p_vals type,double val)=0;
   ///Prints the entry ind
   ///this is for debugging only, will be removed (maybe)
   virtual void print(int ind)=0;
@@ -105,7 +105,7 @@ public:
   
   ///adds another particle to the data table and fills it with
   ///zero values.  Returns the index of the new particle
-  virtual int add_particle()=0;
+  //  virtual int add_particle()=0;
   
   //\@}
 
