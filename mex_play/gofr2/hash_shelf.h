@@ -112,7 +112,7 @@ public:
 private:
   ///Initialization function
   //  void init(unsigned int X, unsigned int Y, unsigned int PPB);
-  void init2(vector<hash_box> & tmp);
+  void init2();
 
 protected:
   //change all of this to be pointers to hash_boxes, to keep
@@ -158,7 +158,7 @@ hash_shelf::hash_shelf(master_box_t<particle> & mb, int imsz1,
   img_dims.push_back(imsz2);
   cout<<img_dims[0]<<endl
       <<img_dims[1]<<endl;
-  init2(hash);
+  init2();
   for(unsigned int j = 0; j<mb.size();j++)
     {
       particle* p = mb.get_particle(j);

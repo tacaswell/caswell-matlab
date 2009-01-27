@@ -43,7 +43,7 @@ using namespace tracking;
 // {
 //   img_dims.push_back(imsz1);
 //   img_dims.push_back(imsz2);
-//   init2(hash);
+//   init2();
   
 //   for(unsigned int j = 0; j<mb.get_size();j++)
 //     {
@@ -65,13 +65,13 @@ hash_shelf::hash_shelf(unsigned int imsz1,
 {
   img_dims.push_back(imsz1);
   img_dims.push_back(imsz2);
-  init2(hash);
+  init2();
 }
 
 hash_shelf::hash_shelf(vector<int> imgsz, unsigned int ippb, int i_frame):
   img_dims(imgsz),  ppb(ippb),  plane_number(i_frame)
 {  
-  init2(hash);
+  init2();
 }
 
 
@@ -83,8 +83,9 @@ hash_shelf::hash_shelf(vector<int> imgsz, unsigned int ippb, int i_frame):
 //     hash.push_back(hash_box());
 // }
 
-void hash_shelf::init2(vector<hash_box> & tmp){
+void hash_shelf::init2(){
   hash_dims.clear();
+  hash.clear();
   for(vector<int>::iterator it = img_dims.begin();
       it<img_dims.end(); it++)
     hash_dims.push_back((*it)%ppb==0?(*it)/ppb:(1+(*it)/ppb));
@@ -96,9 +97,9 @@ void hash_shelf::init2(vector<hash_box> & tmp){
       it<hash_dims.end(); it++)
     tmp_prod*=(*it);
   
-  //assume that what gets handed is can be nuked
-  tmp.clear();
-  tmp.reserve(tmp_prod);
+
+
+  hash.reserve(tmp_prod);
   for(int j = 0; j<tmp_prod;j++)
     hash.push_back(hash_box());
 }
@@ -185,17 +186,15 @@ void hash_shelf::get_region( particle_base* n,
      new particle per box value
    */
 void hash_shelf::rehash(unsigned int PPB){
-  vector<hash_box> tmp(hash);
+  list<particle_track*> *tmp = shelf_to_list();
 
   ppb = PPB;
   //rebuilds the hash table
-  init2(hash);
-  for(vector<hash_box>::iterator it = tmp.begin(); it<tmp.end(); it++)
-    for(vector<particle_base*>::const_iterator it2 = (*it).begin();
-	it2<(*it).end(); it2++)
-      push(*it2);
- 
-
+  init2();
+  for(list<particle_track*>::iterator it = tmp->begin(); it!=tmp->end(); it++)
+      push(*it);
+  
+  delete tmp;
 
 }
 

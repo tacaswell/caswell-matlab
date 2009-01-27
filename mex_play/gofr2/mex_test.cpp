@@ -102,7 +102,7 @@ void mexFunction( int nlhs, mxArray *plhs[],
   //  contents[wrapper::d_index] = 5;
   //  contents.insert(pair<wrapper::p_vals, int>(wrapper::d_trackid,3));
   //  params_matlab p_out = params_matlab(plhs,contents,mxGetM(*prhs),contents.size());
-  params_file p_out = params_file(mxGetM(*prhs),contents.size(),contents);
+  params_file p_out = params_file(mxGetM(*prhs),contents);
   //  master_box b = master_box(&p,&p,6);
 
   master_box_t<particle_track>bt(&p_in,&p_out);
