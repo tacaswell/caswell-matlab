@@ -51,6 +51,7 @@ int wrapper_i_file::num_entries(){
 void wrapper_i_file::fill_data(string file_name, int row, int col){
   rows = row;
   cols = col;
+  cout<<rows<<"\t"<<cols<<endl;
   first = (double*)malloc(rows*cols*sizeof(double));
   
 
@@ -61,12 +62,13 @@ void wrapper_i_file::fill_data(string file_name, int row, int col){
   //doesn't exist, but everything seems happy
   indatafile.open(file_name.c_str(),ios::in);
   int i=0,j=0;
-  int tmp;
+  double tmp;
 
   while(indatafile.eof()==false && i<rows) {
     for(j=0; j<cols; j++) {
       indatafile >> tmp;
       *(first + i*cols + j) = (double)tmp ;
+
     }
     i++;
   }
@@ -110,6 +112,7 @@ void wrapper_i_file::print(int ind){
   cout<<get_value(ind, d_r2) <<"\t";
   cout<<get_value(ind, d_frame) <<"\t";
   cout<<endl;
+
 }
 */
 void wrapper_i_file::print(){
@@ -123,19 +126,6 @@ wrapper_i_file::~wrapper_i_file(){
 
 
 wrapper_i_file::wrapper_i_file(params_file* param):wrapper_i_base(param->contains){
-  p_vals tmp[] = {d_index, d_xpos, d_ypos, d_I, d_r2, d_frame};
-  int tmp2[] = {0, 1, 2 ,3,4,5};
-
-  vector<wrapper::p_vals > tmp3(tmp, tmp+6);
-  vector<p_vals>::iterator it1 = tmp3.begin();
-
-  vector<int> tmp4(tmp2, tmp2+6);
-  vector<int>::iterator it2 = tmp4.begin();
-
-  map<p_vals, int>::iterator it3 = contents.begin();
-
-  for( ;it2<tmp4.end() && it1<tmp3.end() ; it1++, it2++, it3++)
-    contents.insert(it3,pair<p_vals, int>(*it1, *it2));
   
   /*  cout<<contents[d_index]<<"\t"
       <<contents[d_xpos	]<<"\t"

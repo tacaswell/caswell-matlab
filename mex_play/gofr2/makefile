@@ -2,9 +2,10 @@ objects = wrapper_i_file.o  hash_box.o hash_shelf.o		\
 	 gofr_free.o wrapper_o_file.o particle_track.o track_box.o	\
 	 hash_case.o track_list.o track_shelf.o particle_base.o		\
 	 wrapper_i_ning.o hash_shelf3d.o wrapper_i_ning_hd.o		\
-	 wrapper_base.o wrapper_i.o
+	 wrapper_base.o wrapper_i.o histogram.o
 
 c_objects = test.o
+
 
 mex_code= mex_test.cpp
 mex_objects = wrapper_i_matlab.o wrapper_o_matlab.o matlab_utils.o
@@ -33,8 +34,10 @@ track_2d: $(objects) $(mex_objects) track_2d.cpp
 
 
 prog.out: $(objects) $(c_objects)
-	g++ $(CXXFLAGS) -o prog $(objects) $(c_objects)
+	$(CXX) $(CXXFLAGS) -o prog $(objects) $(c_objects)
 
+test_e: test2.o histogram.o
+	$(CXX) $(CXXFLAGS) -o test_prog $^
 
 gofr_free.o: hash_box.h hash_shelf.h
 
@@ -78,6 +81,9 @@ track_box.o: track_box.h particle.h
 track_list.o: particle.h track_list.h 
 track_shelf.o : particle.h track_box.h track_shelf.h
 
+#helper objects
+histogram.o: histogram.h
+
 
 #testing objects
 test.o: wrapper_i.h particle.h master_box.h hash_box.h hash_shelf.h	\
@@ -89,7 +95,7 @@ test.o: wrapper_i.h particle.h master_box.h hash_box.h hash_shelf.h	\
 m_prog: $(objects) $(mex_objects) $(mex_code)
 	  $(MEX) -o  $(MEXFLAGS)  $(LIBS) -output testing.$(MEXSUFFIX) $^
 
-
+test2.o: histogram.h
 
 doc: *.h
 	doxygen Doxyfile;	
