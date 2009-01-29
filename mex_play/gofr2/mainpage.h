@@ -76,3 +76,7 @@ namespace tracking{}
 */
 namespace identification{}
 
+/**
+   Namespace for utilities and helper functions
+*/
+namespace utilities{}

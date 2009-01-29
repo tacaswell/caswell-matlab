@@ -29,7 +29,7 @@
 //forward declared until I acctuly implement it
 //#include "generic_wrapper.h"
 class Generic_wrapper;
-namespace tracking{
+namespace utilities{
 /**
    Base class for historgram objects.
    Implements a linearly spaced histogram.

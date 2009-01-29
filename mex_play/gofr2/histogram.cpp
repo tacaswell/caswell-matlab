@@ -25,7 +25,7 @@
 #include "histogram.h"
 #include <iostream>
 
-using namespace tracking;
+using namespace utilities;
 
 using std::cout;
 using std::cerr;

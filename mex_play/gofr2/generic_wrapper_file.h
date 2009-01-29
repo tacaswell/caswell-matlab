@@ -22,34 +22,19 @@
 //containing parts covered by the terms of MATLAB User License, the
 //licensors of this Program grant you additional permission to convey
 //the resulting work.
-#include "histogram.h"
-#include "svector.h"
-#include <iostream>
-#include <cmath>
-
-//using namespace tracking;
-using std::cout;
-using std::cerr;
-using std::endl;
-using std::vector;
-using utilities::Svector;
 
 
-void vec_print2(vector<double> in){
-  for(unsigned int j = 0 ; j<in.size(); j++)
-    cout<<in.at(j)<<"\t";
-  cout<<endl;
+#ifndef GWRAPPER_FILE
+#define GWRAPPER_FILE
+namespace utilities{
+
+class Generic_wrapper_file:public Generic_wrapper_base{
+
+
+};
+
+
 }
 
 
-int main(){
-
-  Svector<int> tmp;
-  cout<< (tmp.data).size()<<endl;
-  tmp.data.resize(10);
-  for(int j = 0; j<15; j++)
-    tmp.data.push_back(j);
-  tmp.print();
-  cout<<tmp.data.size()<<endl;
-  
-}
+#endif

@@ -1,4 +1,4 @@
-//Copyright 2009 Thomas A Caswell
+//Copyright 2008,2009 Thomas A Caswell
 //tcaswell@uchicago.edu
 //http://jfi.uchicago.edu/~tcaswell
 //
@@ -22,34 +22,31 @@
 //containing parts covered by the terms of MATLAB User License, the
 //licensors of this Program grant you additional permission to convey
 //the resulting work.
-#include "histogram.h"
-#include "svector.h"
+
+#ifndef SVECTOR
+#define SVECTOR
+
+#include <vector>
 #include <iostream>
-#include <cmath>
+namespace utilities{
+/**
+   A class that is basically a wrapper of the STL vector to carry around a pointer
+   to a Generic_wrapper to facilitate output
+*/
+class Generic_wrapper;
+template<class T>
+struct Svector{
+  Generic_wrapper * out;
+  std::vector<T> data;
+  void print();
+};
 
-//using namespace tracking;
-using std::cout;
-using std::cerr;
-using std::endl;
-using std::vector;
-using utilities::Svector;
-
-
-void vec_print2(vector<double> in){
-  for(unsigned int j = 0 ; j<in.size(); j++)
-    cout<<in.at(j)<<"\t";
-  cout<<endl;
+template<class T>
+void Svector<T>::print(){
+  for(unsigned int j = 0 ; j<data.size(); j++)
+    std::cout<<data[j]<<"\t";
+  std::cout<<std::endl;
 }
 
-
-int main(){
-
-  Svector<int> tmp;
-  cout<< (tmp.data).size()<<endl;
-  tmp.data.resize(10);
-  for(int j = 0; j<15; j++)
-    tmp.data.push_back(j);
-  tmp.print();
-  cout<<tmp.data.size()<<endl;
-  
 }
+#endif
