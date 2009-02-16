@@ -61,16 +61,28 @@ function master_script
     args.ecut = [.5 .5 .5 .5]' ; 
     args.scut = [1 1 1 1]';    %    prefix1 = {'bot1' 'bot2' 'mid3'};
     args.rgcut = [10 10 10 10]';   %    prefix2 = {'heating' 'cooling' 'rt'};
-    %    
+%    %    
+
+%    args.fname = {'hot' 'cold'};
+%    args.threshold = [8 8]'
+%    args.p_rad = [4 4]';   
+%    args.d_rad = [3 3 ]';   
+%    args.mask_rad =[4 4]'; 
+%    args.hwhm = [1 1 ]';    
+%    args.ecut = [.6 .6]' ; 
+%    args.scut = [1 1]';    %    prefix1 = {'bot1' 'bot2' 'mid3'};
+%    args.rgcut = [6 6]';   %    prefix2 = {'heating' 'cooling' 'rt'};
+%
     
     %fbase =
     %'/home/tcaswell/collids/data/polyNIPAM_batch_10/20080915/s4/';
     fbase = '/home/tcaswell/collids/data/polyNIPAM_batch_11/20081010/temp_series/';
+    %fbase = '/home/tcaswell/collids/data/polyNIPAM_batch_2/20090203/';
     %prefix1 = {'bot1' 'bot2' 'mid3'};
     %prefix2 = {'heating' 'cooling'};
     prefix2 = {'slide'}
     m=0
-    for j = 2:4
+    for j = 2
         %        for k = 1
             %            for m = 0
 
@@ -86,7 +98,10 @@ function master_script
                 %                sprintf('%s_%s_%d',prefix1{j},prefix2{k},m);
                 %post_fix = sprintf('%s_%d_%d',prefix2{j},m+1,k+1);
                 
+                
+                
                 post_fix = sprintf('%d',args.fname(j))
+                %post_fix = args.fname{j};
                 
                 %                    if k==2&m==3
                 %    post_fix = [post_fix(1:(end-1)) '2a'];
@@ -113,16 +128,16 @@ function master_script
                              args.scut(j,m+1),args.rgcut(j,m+1), args.ecut(j,m+1)));
                 fprintf('peaks trimmed\n');
                     
-                    
-                
-                fprintf('compute g(r)\n')
-                eval(sprintf(['[bin_val t_bins] = ' ...
-                              't_gofr_wm(all_pks_trim(:,2:end),%d,' ...
-                              '%d,%s);'], sargs.binnum, sargs.gofr_max, ...
-                             args.frame_size));
-                fprintf('computed g(r)\n')
-                
-                    
+               %     
+               % 
+               % fprintf('compute g(r)\n')
+               % eval(sprintf(['[bin_val t_bins] = ' ...
+               %               't_gofr_wm(all_pks_trim(:,2:end),%d,' ...
+               %               '%d,%s);'], sargs.binnum, sargs.gofr_max, ...
+               %              args.frame_size));
+               % fprintf('computed g(r)\n')
+               % 
+               %     
 %                    tic
 %                        fprintf('make tracks\n')
 %                        eval(sprintf(['tracks = track(all_pks_trim' ...
@@ -164,9 +179,13 @@ function master_script
 %                    toc
                fprintf('saving \n')
                 eval(sprintf(['save(''processed_%s'',''all_pks'', ' ...
-                              '''all_pks_trim'',''bin_val'',' ...
-                              '''t_bins'',''tms'',''fname'')'], post_fix));
-%                        
+                              '''all_pks_trim'',' ...
+                              '''tms'',''fname'')'], ...
+                             post_fix));
+                
+%                eval(sprintf(['save(''processed_%s'',''all_pks'', ' ...
+%                              '''all_pks_trim'',''bin_val'',' ...
+%                              '''t_bins'',''tms'',''fname'')'], post_fix));                        
                 fprintf('saved\n')
 
                 %                    

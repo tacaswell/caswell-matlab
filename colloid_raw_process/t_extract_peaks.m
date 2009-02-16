@@ -19,17 +19,25 @@ function [ all_pks tm_vec]= t_extract_peaks(handle, p_rad, hwhm,d_rad,mask_rad,t
     h = handle.getSizeY(); 
     numImages = handle.getImageCount();
     
-    all_pks = zeros(1e6,10);
-    mat_sz = 1e6;
+    all_pks = zeros(18e6,10);
+    mat_sz = 5e6;
     step_sz = 1e6;
     tm_vec = get_times(handle);
     pk_num = 0;
     for j = 1:numImages
-           % for j = 1:15
-    
+        % for j = 1:15
+        
+
+
+
+        
         img = extract_image(handle,j-1);
 
-        pks = t_hello(img,[p_rad,hwhm,d_rad,mask_rad,threshold,0])';
+        
+        
+        %        pks =
+        %        t_hello(img,[p_rad,hwhm,d_rad,mask_rad,threshold,0])';
+        pks = iden(img,[p_rad,hwhm,d_rad,mask_rad,threshold,0])';
         pk_sz = size(pks,1);
         if (pk_sz+pk_num)>mat_sz
             all_pks = grow_mat(all_pks,step_sz);

@@ -42,7 +42,7 @@ circ_handles = [];
     
 
 %%set up buffers
-    buffer_frames = 0;
+    buffer_frames = 2;
     buffer_length = 2*buffer_frames + 1;
     buffer_index = zeros(1,buffer_length);
     buffer_current = 1;
@@ -305,9 +305,10 @@ function rebuild_buffer
     
     for j = 1:buffer_length
         img = extract_image(r,buffer_index(j));
-
+        tic
         [pks b_passed centers] = t_hello(img,[p_rad,hwhm,d_rad, ...
                             mask_rad,threshold,0]);
+        toc
         pks = pks';
 
         % convert Java BufferedImage to MATLAB image
@@ -365,10 +366,11 @@ function update_buffer
     for j = change_index
         img = extract_image(r,buffer_index(j));
         
+        tic
         % convert Java BufferedImage to MATLAB image
         [pks b_passed centers] = t_hello(img,[p_rad,hwhm,d_rad,mask_rad, ...
                             threshold,0]);
-        
+        toc
         pks = pks';
 
         % convert Java BufferedImage to MATLAB image
