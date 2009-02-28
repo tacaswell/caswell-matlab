@@ -18,7 +18,7 @@ function out = extract_highlevel2(fname)
     
     in = open(fname);
     
-    for j = [1 3]
+    for j = [2 3]
         
         eval(sprintf('out.%s = in.%s;',fields{j},fields{j}));
         

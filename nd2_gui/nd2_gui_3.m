@@ -84,7 +84,7 @@ set(oc,'string',num2str(disp_mode));
 
 img_frame = imagesc(squeeze(buffer_pix(:,:,buffer_current)));
 title(filename)
-axis equal
+axis image
 image_index_disp = uicontrol(fh,'style','text','string',image_index,...
                              'position',[ 550 20 20 20]);
 
@@ -246,6 +246,14 @@ function int = adjust_disp_mode(int)
     
     
    disp_mode = int
+   fh
+   if (disp_mode==1)
+       caxis([3000 10000])
+   elseif (disp_mode==0)
+       caxis([0 50])
+   end
+   
+   
    rebuild_buffer;
    update_display;
 end
@@ -305,10 +313,14 @@ function rebuild_buffer
     
     for j = 1:buffer_length
         img = extract_image(r,buffer_index(j));
+        
         tic
-        [pks b_passed centers] = t_hello(img,[p_rad,hwhm,d_rad, ...
+            [pks b_passed centers] = iden(img,[p_rad,hwhm,d_rad, ...
                             mask_rad,threshold,0]);
+            
         toc
+        clear iden
+    
         pks = pks';
 
         % convert Java BufferedImage to MATLAB image
@@ -367,10 +379,11 @@ function update_buffer
         img = extract_image(r,buffer_index(j));
         
         tic
-        % convert Java BufferedImage to MATLAB image
-        [pks b_passed centers] = t_hello(img,[p_rad,hwhm,d_rad,mask_rad, ...
-                            threshold,0]);
+            % convert Java BufferedImage to MATLAB image
+            [pks b_passed centers] = iden(img,[p_rad,hwhm,d_rad,mask_rad, ...
+                                threshold,0]);
         toc
+        clear iden
         pks = pks';
 
         % convert Java BufferedImage to MATLAB image

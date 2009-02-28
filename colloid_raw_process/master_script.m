@@ -52,15 +52,16 @@ function master_script
 %    args.scut = 1;                 %fbase = '/home/tcaswell/collids/data/polyNIPAM_batch_1/20080728/js_';
 %    args.rgcut = 4;                %for 2008/
 
-    args.fname = [20 26 28 29]'
-    args.threshold = [8 8 8 8]'
-    args.p_rad = [7 6 5 5]';   
-    args.d_rad = [3 3 3 3]';   
-    args.mask_rad =[5 5 4 4]'; 
-    args.hwhm = [3 2 2 2]';    
-    args.ecut = [.5 .5 .5 .5]' ; 
-    args.scut = [1 1 1 1]';    %    prefix1 = {'bot1' 'bot2' 'mid3'};
-    args.rgcut = [10 10 10 10]';   %    prefix2 = {'heating' 'cooling' 'rt'};
+
+%     args.fname = [20 26 28 29]'
+%     args.threshold = [8 8 8 8]'
+%     args.p_rad = [7 6 5 5]';   
+%     args.d_rad = [3 3 3 3]';   
+%     args.mask_rad =[5 5 4 4]'; 
+%     args.hwhm = [3 2 2 2]';    
+%     args.ecut = [.5 .5 .5 .5]' ; 
+%     args.scut = [1 1 1 1]';    %    prefix1 = {'bot1' 'bot2' 'mid3'};
+%     args.rgcut = [10 10 10 10]';   %    prefix2 = {'heating' 'cooling' 'rt'};
 %    %    
 
 %    args.fname = {'hot' 'cold'};
@@ -74,6 +75,20 @@ function master_script
 %    args.rgcut = [6 6]';   %    prefix2 = {'heating' 'cooling' 'rt'};
 %
     
+
+%for 20090223 data
+
+    args.fname     = [21];
+    args.threshold = [6];
+    args.p_rad     = [5];
+    args.d_rad     = [3];
+    args.mask_rad  = [4];
+    args.hwhm      = [2];
+    args.ecut      = [.7];
+    args.scut      = [1.5];
+    args.rgcut     = [];
+
+
     %fbase =
     %'/home/tcaswell/collids/data/polyNIPAM_batch_10/20080915/s4/';
     fbase = '/home/tcaswell/collids/data/polyNIPAM_batch_11/20081010/temp_series/';
