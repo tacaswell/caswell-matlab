@@ -34,7 +34,7 @@ function var_out= file_looper( fun)
     
     var_out = cell(1,length(range1)*length(range2)*length(range3));
     index = 1;
-    for j = range1(2)
+    for j = range1
         for k = range2
             for m = range3
                 j
