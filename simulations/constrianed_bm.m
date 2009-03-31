@@ -50,9 +50,9 @@ function out = liklyhood(pos,max)
     if(abs(pos)<max)
         out = 1;
     else
-        %out = 0;
+        out = 0;
         %out = exp(-(abs(pos)-max));
-        out = exp(-(abs(pos)-max)^2);
+        %out = exp(-(abs(pos)-max)^2);
         %out = 1;
     end
 end
