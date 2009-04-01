@@ -85,36 +85,51 @@ function master_script
     
 
 %for 20090223 data
-    args.fname     = [21  23  26];
-    args.threshold = [6   6   6];
-    args.p_rad     = [5   5   4];
-    args.d_rad     = [3   3   2];
-    args.mask_rad  = [4   4   3];
-    args.hwhm      = [2   2   1];
-    args.ecut      = [.7  .7  .4];
-    args.scut      = [1.5 1.5 1];
-    args.rgcut     = [7   7   4];
+%     args.fname     = [21  23  26];
+%     args.threshold = [6   6   6];
+%     args.p_rad     = [5   5   4];
+%     args.d_rad     = [3   3   2];
+%     args.mask_rad  = [4   4   3];
+%     args.hwhm      = [2   2   1];
+%     args.ecut      = [.7  .7  .4];
+%     args.scut      = [1.5 1.5 1];
+%     args.rgcut     = [7   7   4];
 
+%for batch 12 20090331
+%args.fname     = 'Z_Series';
+args.fname     = 'sparse_room_tmp';
+args.threshold = [10 ];
+args.p_rad     = [8  ];
+args.d_rad     = [3  ];
+args.mask_rad  = [8  ];
+args.hwhm      = [4  ];
+args.ecut      = [.2 ];
+args.scut      = [1  ];
+args.rgcut     = [10 ];
+
+    
     args
 
     %fbase =
     %'/home/tcaswell/collids/data/polyNIPAM_batch_10/20080915/s4/';
     %    fbase =
     %    '/home/tcaswell/collids/data/polyNIPAM_batch_11/20081010/temp_series/';
+%     fbase = ...
+%         '/home/tcaswell/collids/data/polyNIPAM_batch_2/20090223/';
     fbase = ...
-        '/home/tcaswell/collids/data/polyNIPAM_batch_2/20090223/';
+        '/home/tcaswell/collids/data/polyNIPAM_batch_12/20090331/';
     %fbase = '/home/tcaswell/collids/data/polyNIPAM_batch_2/20090203/';
     %prefix1 = {'bot1' 'bot2' 'mid3'};
     %prefix2 = {'heating' 'cooling'};
     %    prefix2 = {'slide'}
     m=0
-    for j = 2:3
+    for j = 1
         tic;
             
             
             
-            post_fix = num2str(args.fname(j));
-
+            %post_fix = num2str(args.fname(j));
+            post_fix = args.fname;
             fname = [fbase post_fix '.tif']
 
             
@@ -139,7 +154,7 @@ function master_script
             fprintf('saving \n')
             eval(sprintf(['save(''processed_%s'',''all_pks'', ' ...
                           '''all_pks_trim'',' ...
-                          '''tms'',''fname'')'], ...
+                          '''tms'',''fname'',''args'')'], ...
                          post_fix));
             fprintf('saved\n')
 
