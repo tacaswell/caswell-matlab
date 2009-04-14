@@ -10,63 +10,32 @@ function var_out= file_looper( fun)
 %-var_out: cell array of outputs
     
     
-    prefix1 = {'d1' 'd2' 'rd' 'ld'};
-    prefix2 = {'heating' 'cooling' 'rt'};
-    base_path = '/home/tcaswell/collids/processed_data/20081021/';
-%    
-        
-%    base_path = '/home/tcaswell/collids/processed_data/20080808/';
-%    prefix1 = {'bot1' 'bot2' 'mid3'};
-%    prefix2 = {'heating' 'cooling' 'rt'};
-    
-%    base_path = '/home/tcaswell/collids/processed_data/20080915/s4/';
-%    prefix1 = {''};
-%    prefix2 = {'heating' 'cooling' 'rt'};
 
-
+    base_path = '/home/tcaswell/collids/processed_data/20090408/';
     ext = 'mat';
     base_name = 'processed';
     delim = '_'
+    fnames     = {'26-8','26-9', '27-7_2','28-7','29-6','30-6','32-0'};
+
     
-    range1 = [20 26 28 29];
-    range2 = 1;
-    range3 = 1;
-    
-    var_out = cell(1,length(range1)*length(range2)*length(range3));
+    var_out = cell(1,length(fnames));
     index = 1;
-    for j = range1
-        for k = range2
-            for m = range3
-                j
-                k
-                m
-                if k==2&&m==6
-                    continue
-                end
-
+    
+    for j = 1:length(fnames)
 
                 
-                %                post_fix = sprintf('%s_%s_%d',prefix1{j},prefix2{k},m);
-                %post_fix = sprintf('%s%s_%d',prefix1{j},prefix2{k},m);
-                post_fix = int2str(j);
-                %  
-                %               if k==2&m==3
-                %    post_fix = [post_fix(1:(end-1)) '2a'];
-                %end
-             %
-                
-             
-                fname = [base_path base_name delim post_fix '.' ext]
-                var_out{index} = fun(fname);
-                var_out{index}.name = [base_name post_fix];
-                index = index + 1;
 
-            end
-        end
+        fname = [base_path base_name delim fnames{j} '.' ext]
+        tic
+            var_out{j} = fun(fname);
+        toc
+        
+
+        
     end
     
 
-    var_out = var_out(~cellfun(@isempty,var_out));
+
    
     
 end

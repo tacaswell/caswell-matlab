@@ -95,17 +95,43 @@ function master_script
 %     args.scut      = [1.5 1.5 1];
 %     args.rgcut     = [7   7   4];
 
-%for batch 12 20090331
-%args.fname     = 'Z_Series';
-args.fname     = 'sparse_room_tmp';
-args.threshold = [10 ];
-args.p_rad     = [8  ];
-args.d_rad     = [3  ];
-args.mask_rad  = [8  ];
-args.hwhm      = [4  ];
-args.ecut      = [.2 ];
-args.scut      = [1  ];
-args.rgcut     = [10 ];
+% %for batch 12 20090331
+% args.fname     = 'Z_Series';
+% %args.fname     = 'sparse_room_tmp';
+% args.threshold = [5 ];
+% args.p_rad     = [8  ];
+% args.d_rad     = [3  ];
+% args.mask_rad  = [8  ];
+% args.hwhm      = [4  ];
+% args.ecut      = [.2 ];
+% args.scut      = [1  ];
+% args.rgcut     = [10 ];
+
+
+%for batch 12 20090407
+args.fname     = {'26-8','26-9', '27-7_2','28-7','29-6','30-6','32-0'};
+args.threshold = [1   10  10  8   10  8   15 ];
+args.p_rad     = [5   5   5   5   5   5   5  ];
+args.d_rad     = [3   4   3   3   3   3   3  ];
+args.mask_rad  = [4   4   4   4   4   4   3  ];
+args.hwhm      = [1   1   1   1   1   1   1  ];
+args.ecut      = [1   0.6 0.6 0.6 0.6 0.8 0.8];
+args.scut      = [3   1.5 1.5 1.5 1.5 1.5 1.5];
+args.rgcut     = [10  10  10  10  10  10  3.5];
+
+
+args.fname    = {'melt_3'};
+args.threshold = 8;
+args.p_rad     = 5;
+args.d_rad     = 3;
+args.mask_rad  = 4;
+args.hwhm      = 1;
+args.ecut      = .8;
+args.scut      = 1.5;
+args.rgcut     = 12;
+
+
+
 
     
     args
@@ -117,19 +143,19 @@ args.rgcut     = [10 ];
 %     fbase = ...
 %         '/home/tcaswell/collids/data/polyNIPAM_batch_2/20090223/';
     fbase = ...
-        '/home/tcaswell/collids/data/polyNIPAM_batch_12/20090331/';
+        '/home/tcaswell/collids/data/polyNIPAM_batch_12/20090407/';
     %fbase = '/home/tcaswell/collids/data/polyNIPAM_batch_2/20090203/';
     %prefix1 = {'bot1' 'bot2' 'mid3'};
     %prefix2 = {'heating' 'cooling'};
     %    prefix2 = {'slide'}
     m=0
-    for j = 1
+    for j = 1:length(args.fname)
         tic;
             
             
             
             %post_fix = num2str(args.fname(j));
-            post_fix = args.fname;
+            post_fix = args.fname{j};
             fname = [fbase post_fix '.tif']
 
             

@@ -10,9 +10,10 @@ function out = sim_msd(in)
     pos_data = [zeros(1,size(in,2));cumsum(in)];
     
     out = zeros(size(in,1),1);
+    mean(mean(in.^2))
     
     for j = 1:size(in,1)
-        out(j) = mean(mean(diff(pos_data(1:j:end)).^2));
+        out(j) = mean(mean(diff(pos_data(1:j:end,:)).^2));
     end
     
 end
