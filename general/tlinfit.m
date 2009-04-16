@@ -25,6 +25,7 @@ w = w';
  err=var(err)*(length(err)-1)/(length(err)-length(pram));
  
  cov = inv(fit'*fit)*err;
+ end
 % 
 % data = data - data(1);
 % 
