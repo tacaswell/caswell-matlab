@@ -326,9 +326,9 @@ function rebuild_buffer
         % convert Java BufferedImage to MATLAB image
         
         if disp_mode ==0
-            buffer_pix(:,:,j) = b_passed + 50*centers;
+            buffer_pix(:,:,j) = b_passed + 0*centers;
         else
-            buffer_pix(:,:,j) = img.*(ones(size(centers))-centers);
+            buffer_pix(:,:,j) = img;%.*(ones(size(centers))-centers);
         end
         buffer_pos{j} = pks(:,[1 3 2 4:9]);
        
@@ -388,9 +388,9 @@ function update_buffer
 
         % convert Java BufferedImage to MATLAB image
         if disp_mode==0
-            buffer_pix(:,:,j) = b_passed + 50*centers;
+            buffer_pix(:,:,j) = b_passed + 0*centers;
         else
-            buffer_pix(:,:,j) = img.*(ones(size(centers))-centers);
+            buffer_pix(:,:,j) = img;%.*(ones(size(centers))-centers);
         end
         buffer_pos{j} = pks(:,[1 3 2 4:9]);
 

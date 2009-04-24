@@ -11,23 +11,23 @@ function var_out= file_looper( fun)
     
     
 
-    base_path = '/home/tcaswell/collids/processed_data/20090408/';
+    base_path = '/home/tcaswell/collids/processed_data/20090422/';
     ext = 'mat';
     base_name = 'processed';
-    delim = '_'
+    delim = '_';
     fnames     = {'26-8','26-9', '27-7_2','28-7','29-6','30-6','32-0'};
 
     
     var_out = cell(1,length(fnames));
     index = 1;
-    
+    tic;
     for j = 1:length(fnames)
 
                 
 
         fname = [base_path base_name delim fnames{j} '.' ext]
-        tic
-            var_out{j} = fun(fname);
+        
+        var_out{j} = fun(fname);
         toc
         
 
@@ -35,7 +35,7 @@ function var_out= file_looper( fun)
     end
     
 
-
+toc;
    
     
 end
