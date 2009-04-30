@@ -109,15 +109,55 @@ function master_script
 
 
 %for batch 12 20090407
-args.fname     = {'26-8','26-9', '27-7_2','28-7','29-6','30-6','32-0'};
-args.threshold = [1   8   8   8   8   8   8  ];
-args.p_rad     = [5   5   5   5   5   5   5  ]-1;
-args.d_rad     = [3   3   3   3   3   3   3  ];
-args.mask_rad  = [4   4   4   4   4   4   4  ]-1;
-args.hwhm      = [1   1   1   1   1   1   1  ]+.5;
-args.ecut      = [1   0.6 0.6 0.6 0.6 0.8 0.8];
-args.scut      = [3   1.5 1.5 1.5 1.5 1.5 1.5];
-args.rgcut     = [10  10  10  10  10  10  3.5];
+% $$$ args.fname     = {'26-8','26-9', '27-7_2','28-7','29-6','30-6','32-0'};
+% $$$ args.threshold = [8   8   8   8   8   8   8  ];
+% $$$ args.p_rad     = [5   5   5   5   5   5   5  ]-1;
+% $$$ args.d_rad     = [3   3   3   3   3   3   3  ];
+% $$$ args.mask_rad  = [4   4   4   4   4   4   4  ]-1;
+% $$$ args.hwhm      = [1   1   1   1   1   1   1  ]+.2;
+% $$$ args.ecut      = [.8   0.6 0.6 0.6 0.6 0.8 0.8];
+% $$$ args.scut      = [1.5   1.5 1.5 1.5 1.5 1.5 1.5];
+% $$$ args.rgcut     = [4  10  10  10  10  10  3.5];
+
+%for batch 12 20090423
+args.fname     ={'20um_28-5_0',
+'20um_28-6_0',
+'20um_29-2_0',
+'20um_30-0_0',
+'20um_water_0',
+'20um_water_1',
+'_28-7_0',
+'30um_26-9_0',
+'30um_28-0_0',
+'30um_28-0_1',
+'30um_28-9_0',
+'30um_28-9_1',
+'30um_28-9_2',
+'30um_30-0_0',
+'30um_30-0_1',
+'30um_30-0_2',
+'30um_30-8_0',
+'40um_24-x_0',
+'q',
+'strange_shape',
+'z_series_26-7',
+'z_series_26-9',
+'z_series_28-0',
+'z_series_28-9_2',
+'z_series_28-9',
+'z_series_29-0',
+'z_series_30-0tif',
+'z_series_31-0tif'};
+args.threshold = [1  ];
+args.p_rad     = [4  ];
+args.d_rad     = [3  ];
+args.mask_rad  = [4  ];
+args.hwhm      = [1.3 ];
+args.ecut      = [.8  ];
+args.scut      = [1.5  ];
+args.rgcut     = [8 ];
+
+
 
 % $$$ 
 % $$$ args.fname    = {'melt_3'};
@@ -142,20 +182,27 @@ args.rgcut     = [10  10  10  10  10  10  3.5];
     %    '/home/tcaswell/collids/data/polyNIPAM_batch_11/20081010/temp_series/';
 %     fbase = ...
 %         '/home/tcaswell/collids/data/polyNIPAM_batch_2/20090223/';
-    fbase = ...
-        '/home/tcaswell/collids/data/polyNIPAM_batch_12/20090407/tmp_series/';
+% $$$     fbase = ...
+% $$$         ['/home/tcaswell/collids/data/polyNIPAM_batch_12/20090407/' ...
+% $$$          'tmp_series/'];
+    
+    fbase =['/home/tcaswell/collids/data/polyNIPAM_batch_12/20090424/' ...
+            'tmp_control/'];
+    
+    
+
     %fbase = '/home/tcaswell/collids/data/polyNIPAM_batch_2/20090203/';
     %prefix1 = {'bot1' 'bot2' 'mid3'};
     %prefix2 = {'heating' 'cooling'};
     %    prefix2 = {'slide'}
-    m=0
-    for j = 1:length(args.fname)
+    j=1;
+    for k = 1:length(args.fname)
         tic;
             
             
             
             %post_fix = num2str(args.fname(j));
-            post_fix = args.fname{j};
+            post_fix = args.fname{k};
             fname = [fbase post_fix '.tif']
 
             

@@ -30,8 +30,9 @@ function out = gofr_find_peaks(gofr_data, range)
 end
 
 function [out]= locate_peak(gofr,edges,range)
-    debug = true;
+    debug = false;
     cutoff = 0;
+    scale = 2;
     if(debug)
     f = figure;
     end
@@ -45,10 +46,14 @@ function [out]= locate_peak(gofr,edges,range)
     more_peaks = true;
     
     [f_m working_index] = max(gofr);
-    
+    working_index_n = floor(working_index/2);
     while(more_peaks)
         working_ar = gofr((working_index - range):(working_index + ...
                                                    range));
+        
+        size(working_ar)
+        size([(0:(2*range))'.^2 (0:(2*range))' ones(2*range ...
+                                                          +1,1)])
         params = lscov([(0:(2*range))'.^2 (0:(2*range))' ones(2*range ...
                                                           +1,1)], working_ar');
         
@@ -75,11 +80,13 @@ function [out]= locate_peak(gofr,edges,range)
             break;
         end
         if((b-1)<cutoff)
+            disp('b less than cut off')
             more_peaks = false;
             break;
         end
         c = c + working_index-range;
         if(c>length(edges))
+            disp('c out of range')
             more_peaks = false;
             break;
         end
@@ -88,17 +95,20 @@ function [out]= locate_peak(gofr,edges,range)
                         +mod(c,1)*(diff(edges(floor(c):ceil(c)))))];
 
            
-        
-        [f_m working_index_n] = min(gofr((working_index):end));
-        if(working_index_n > 5*range)
-            more_peaks = false;
-            break;
-        end
+        window_max = min([length(gofr) working_index+floor(scale* ...
+                                                          working_index_n)]);
+        [f_m working_index_n] = min(gofr((working_index):(window_max)));
+% $$$         if(working_index_n > 5*range)
+% $$$             disp('steped too far')
+% $$$             more_peaks = false;
+% $$$             break;
+% $$$         end
         working_index = working_index + working_index_n;
         
         
         
         if(isempty(f_m) || (working_index+range) > length(gofr))
+            disp('steped too far or no max')
             more_peaks = false;
             break;
         end
@@ -126,6 +136,7 @@ function [out]= locate_peak(gofr,edges,range)
         
         end        
         if((1-b)<cutoff)
+            disp('b less than cut off trough')
             more_peaks = false;
             break;
         end
@@ -134,18 +145,25 @@ function [out]= locate_peak(gofr,edges,range)
                         +mod(c,1)*(diff(edges(floor(c):ceil(c)))))];
 
         
-                
-        [f_m working_index_n] = max(gofr((working_index):end));
-        if(working_index_n > 5*range)
-            more_peaks = false;
-            break;
-        end
+        
+
+        window_max = min([length(gofr) working_index+floor(scale* ...
+                                                          working_index_n)]);
+        [f_m working_index_n] = max(gofr((working_index):(window_max)));
+% $$$         if(working_index_n > 5*range)
+% $$$             disp('steped too far')
+% $$$             working_index_n
+% $$$             more_peaks = false
+% $$$             break;
+% $$$         end
         working_index = working_index + working_index_n;
 
       
         
         if(isempty(f_m) || (working_index+range) > length(gofr))
-            more_peaks = false;
+            disp('steped too far or out of range')
+            working_index
+            more_peaks = false
         end
     end
     

@@ -7,17 +7,17 @@ function circ_handles = nd2_gui_3(filename)
 
 %  Initialization tasks
 %% define constants
-    threshold = 8;         %threshold for pkfnd
+    threshold = 1;         %threshold for pkfnd
     p_rad = 5;           %size of particles to be looking for
-    image_index = 5;
+    image_index = 10;
     series_index = 0;
-    hwhm = 2;
+    hwhm = 1.3;
     d_rad = 3;
     mask_rad = 4;
 
     shift_cut = 1.5;
-    rg_cut = 15;
-    e_cut = .4;
+    rg_cut = 8;
+    e_cut = .6;
 
     disp_mode = 1;
     

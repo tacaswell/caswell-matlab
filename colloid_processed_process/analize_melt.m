@@ -1,12 +1,15 @@
 function out = analize_melt
-    data_in = open(['/home/tcaswell/collids/processed_data/20090410/' ...
-          'processed_melt_3.mat']);
+% $$$     data_in = open(['/home/tcaswell/collids/processed_data/20090410/' ...
+% $$$           'processed_melt_3.mat']);
+    
+    data_in = open('/home/tcaswell/collids/processed_data/20090427/processed_20um_28-5_0.mat')
     tmp = data_in.all_pks_trim(:,[2 3 end]);
     tmp(:,3) = tmp(:,3) -1;
     
     %frames per division
     f_p_d = 20;
-    out = cell(floor(1200/f_p_d),1);
+    frames = 300;
+    out = cell(floor(frames/f_p_d),1);
     
     for j = 1:length(out)
         j
