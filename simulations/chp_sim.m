@@ -1,7 +1,7 @@
-function [fd fd_g1fd_e] = chp_sim
+function [fd fd_g fd_e] = chp_sim
    
-    fd = make_sim(2);
-    [fd_g fd_e]= make_plots(fd,2);
+    fd = make_sim(2.1);
+    [fd_g fd_e]= make_plots(fd,2.1);
     
 end
 
@@ -46,13 +46,15 @@ end
 function [fake_stack fake_stk_ext]= make_plots(fake_data_stack,n)
         
     clear basic_static
-    [fake_stack.gofr fake_stack.edges] = basic_static(fake_data_stack);
+    [fake_stack.gofr fake_stack.edges] = basic_static(fake_data_stack, ...
+                                                      2000,3000,100,100,5000);
+    clear basic_static
     figure;hold on;
     fake_stk_ext =gofr_find_peaks({fake_stack},100)
     plot(0:(length(fake_stk_ext.peaks)-1),fake_stk_ext.peaks/ ...
-         fake_stk_ext.peaks(1)-1,'x');
+         fake_stk_ext.peaks(1)-1,'*');
     plot((0:(length(fake_stk_ext.troughs)-1)) + .5, ...
-         fake_stk_ext.troughs/fake_stk_ext.peaks(1)-1,'o')
+         fake_stk_ext.troughs/fake_stk_ext.peaks(1)-1,'s')
     
     plot(0:10,.87*(0:10),'m')
     title(['peaks in chp with noise (std = ' num2str(n) ')'])
