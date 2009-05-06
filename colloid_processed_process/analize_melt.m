@@ -15,7 +15,7 @@ function out = analize_melt
         j
         tmp_sm = tmp(tmp(:,3)<(j*f_p_d) & tmp(:,3)>=((j-1)*f_p_d) ,:);
         tmp_sm(:,3) =tmp_sm(:,3) -tmp_sm(1,3) ;
-        [out{j}.gofr out{j}.edges] = basic_static(tmp_sm,520,1390,1200, ...
+        [out{j}.gofr out{j}.edges] = basic_static(tmp_sm,520,1390,f_p_d, ...
                                                   100,5000);
         clear basic_static;
     end

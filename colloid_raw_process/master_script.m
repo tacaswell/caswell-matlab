@@ -120,42 +120,76 @@ function master_script
 % $$$ args.rgcut     = [4  10  10  10  10  10  3.5];
 
 %for batch 12 20090423
-args.fname     ={'20um_28-5_0',
-'20um_28-6_0',
-'20um_29-2_0',
-'20um_30-0_0',
-'20um_water_0',
-'20um_water_1',
-'_28-7_0',
-'30um_26-9_0',
-'30um_28-0_0',
-'30um_28-0_1',
-'30um_28-9_0',
-'30um_28-9_1',
-'30um_28-9_2',
-'30um_30-0_0',
-'30um_30-0_1',
-'30um_30-0_2',
-'30um_30-8_0',
-'40um_24-x_0',
-'q',
-'strange_shape',
-'z_series_26-7',
-'z_series_26-9',
-'z_series_28-0',
-'z_series_28-9_2',
-'z_series_28-9',
-'z_series_29-0',
-'z_series_30-0tif',
-'z_series_31-0tif'};
-args.threshold = [1  ];
+% $$$ args.fname     ={'20um_28-5_0',
+% $$$ '20um_28-6_0',
+% $$$ '20um_29-2_0',
+% $$$ '20um_30-0_0',
+% $$$ '20um_water_0',
+% $$$ '20um_water_1',
+% $$$ '_28-7_0',
+% $$$ '30um_26-9_0',
+% $$$ '30um_28-0_0',
+% $$$ '30um_28-0_1',
+% $$$ '30um_28-9_0',
+% $$$ '30um_28-9_1',
+% $$$ '30um_28-9_2',
+% $$$ '30um_30-0_0',
+% $$$ '30um_30-0_1',
+% $$$ '30um_30-0_2',
+% $$$ '30um_30-8_0',
+% $$$ '40um_24-x_0',
+% $$$ 'q',
+% $$$ 'strange_shape',
+% $$$ 'z_series_26-7',
+% $$$ 'z_series_26-9',
+% $$$ 'z_series_28-0',
+% $$$ 'z_series_28-9_2',
+% $$$ 'z_series_28-9',
+% $$$ 'z_series_29-0',
+% $$$ 'z_series_30-0tif',
+% $$$ 'z_series_31-0tif'};
+
+args.threshold = [8  ];
 args.p_rad     = [4  ];
 args.d_rad     = [3  ];
 args.mask_rad  = [4  ];
 args.hwhm      = [1.3 ];
-args.ecut      = [.8  ];
+args.ecut      = [.65  ];
 args.scut      = [1.5  ];
-args.rgcut     = [8 ];
+args.rgcut     = [6.5];
+
+
+args.fname     ={
+    '20um_27-2_0',
+    '20um_28-1_0',
+    '20um_28-5_0',
+    '20um_28-9_0',
+    '20um_29-1_0',
+    '20um_29-6_0',
+    '30um_27-2_0',
+    '30um_28-1_0',
+    '30um_28-3-_0',
+    '30um_28-3-_1',
+    '30um_28-5_0',
+    '30um_287-9-_0',
+    '30um_28-9_0',
+    '30um_29-2_0',
+    '30um_29-7_0',
+    '40um_28-1_0',
+    '40um_28-5_0',
+    '40um_29-2_0',
+    'freeze_0',
+    'freeze_1',
+    'laser_melt_0',
+    'laser_melt_1',
+    'melt_0',
+    'z_series_28-1_0',
+    'z_series_28-5_0',
+    'z_series_29-2_0',
+    'z_series_29-8_0',
+    'z_series_room_tmp_0',
+    'z_series_room_tmp_1'
+                }
 
 
 
@@ -186,9 +220,13 @@ args.rgcut     = [8 ];
 % $$$         ['/home/tcaswell/collids/data/polyNIPAM_batch_12/20090407/' ...
 % $$$          'tmp_series/'];
     
-    fbase =['/home/tcaswell/collids/data/polyNIPAM_batch_12/20090424/' ...
-            'tmp_control/'];
-    
+% $$$     fbase =['/home/tcaswell/collids/data/polyNIPAM_batch_12/20090424/' ...
+% $$$             'tmp_control/'];
+
+        
+    fbase ='/home/tcaswell/collids/data/polyNIPAM_batch_12/20090501/';
+            
+
     
 
     %fbase = '/home/tcaswell/collids/data/polyNIPAM_batch_2/20090203/';
