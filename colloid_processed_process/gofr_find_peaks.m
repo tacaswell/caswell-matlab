@@ -23,8 +23,9 @@ function out = gofr_find_peaks(gofr_data, range)
 % $$$     out = cellfun(@(x) x(x>=1),out,'uniformoutput',false );
 % $$$     
 % $$$
-    range = num2cell(ones(size(gofr_data))*range);
-    out = cellfun(@(x,y) locate_peak(x.gofr,x.edges,y),gofr_data,range);
+    
+    range = ones(size(gofr_data))*range;
+    out = arrayfun(@(x,y) locate_peak(x.gofr,x.edges,y),gofr_data,range);
     
 
 end
@@ -42,18 +43,17 @@ function [out]= locate_peak(gofr,edges,range)
     
     out.peaks = [];
     out.troughs = [];
-    
+    out.peaks_indx = [];
+    out.troughs_indx = [];
     more_peaks = true;
     
     [f_m working_index] = max(gofr);
     working_index_n = floor(working_index/2);
     while(more_peaks)
+
         working_ar = gofr((working_index - range):(working_index + ...
                                                    range));
         
-        size(working_ar)
-        size([(0:(2*range))'.^2 (0:(2*range))' ones(2*range ...
-                                                          +1,1)])
         params = lscov([(0:(2*range))'.^2 (0:(2*range))' ones(2*range ...
                                                           +1,1)], working_ar');
         
@@ -90,6 +90,11 @@ function [out]= locate_peak(gofr,edges,range)
             more_peaks = false;
             break;
         end
+        
+        
+
+        out.peaks_indx = [out.peaks_indx floor(c)];
+        
         
         out.peaks = [out.peaks (edges(floor(c))...
                         +mod(c,1)*(diff(edges(floor(c):ceil(c)))))];
@@ -141,8 +146,11 @@ function [out]= locate_peak(gofr,edges,range)
             break;
         end
         c = c + working_index-range;
+       
+
+        out.troughs_indx = [out.troughs_indx floor(c)];
         out.troughs = [out.troughs (edges(floor(c))...
-                        +mod(c,1)*(diff(edges(floor(c):ceil(c)))))];
+                                    +mod(c,1)*(diff(edges(floor(c):ceil(c)))))];
 
         
         

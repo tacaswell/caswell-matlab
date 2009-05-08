@@ -1,4 +1,4 @@
-function make_Ddudu_plots(in,type)
+function make_Duu_plots(in,type)
     
     arrayfun(@helper, in)
 
@@ -26,8 +26,8 @@ function helper(in)
     axis([0 100 -.1 5.2])
     grid on;
 
-    h = title([parse_tmp(in.stack_name) ' Duu']);
-    set(h,'interpreter','none')
+    h = title([parse_tmp(in.stack_name) ' D_{uu}']);
+   
 
         figure; 
     hold all;
@@ -49,7 +49,7 @@ function helper(in)
     axis([0 100 -.1 5.2])
     grid on;
     h = title([parse_tmp(in.stack_name) ' DuuT']);
-    set(h,'interpreter','none')
+   
 
         figure; 
     hold all;
@@ -71,7 +71,7 @@ function helper(in)
     axis([0 100 -.1 5.2])
     grid on;
     h = title([parse_tmp(in.stack_name) ' DuuL']);
-    set(h,'interpreter','none')
+   
 
 end
 

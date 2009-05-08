@@ -1,13 +1,14 @@
-function [fd fd_g fd_e] = chp_sim
-   
-    fd = make_sim(2.1);
-    [fd_g fd_e]= make_plots(fd,2.1);
+function [fd fd_g ] = chp_sim
+   noise_level = .5;
+    
+    fd = make_sim(noise_level);
+    [fd_g ]= make_plots(fd,noise_level);
     
 end
 
 function fake_data_stack = make_sim(noise_level)
     
-    planes = 100;
+    planes = 50;
     a = [0 1];
     b = [cos(30*pi/180) sin(30*pi/180)];
     count = 1;
@@ -32,7 +33,8 @@ function fake_data_stack = make_sim(noise_level)
                         (q*size(fake_data_trim,1)),[1 2])=...
             fake_data_trim(:,[1 2]) +...
             noise_level*randn(size(fake_data_trim,1),2);
-        
+        % $$$             noise_level*(1-rand(size(fake_data_trim,1),2))*2;
+
         fake_data_stack((1+(q-1)*size(fake_data_trim,1)):...
                         (q*size(fake_data_trim,1)),3) =q-1;
     end;
@@ -43,18 +45,20 @@ function fake_data_stack = make_sim(noise_level)
 end
 
 
-function [fake_stack fake_stk_ext]= make_plots(fake_data_stack,n)
+function [fake_stack ]= make_plots(fake_data_stack,n)
         
     clear basic_static
-    [fake_stack.gofr fake_stack.edges] = basic_static(fake_data_stack, ...
-                                                      2000,3000,100,100,5000);
+    [fake_stack.gofr fake_stack.edges] = ...
+        basic_static(fake_data_stack, 2000,3000, ...
+                     max(fake_data_stack(:,3))+1,100,5000);
+    
     clear basic_static
     figure;hold on;
-    fake_stk_ext =gofr_find_peaks({fake_stack},100)
-    plot(0:(length(fake_stk_ext.peaks)-1),fake_stk_ext.peaks/ ...
-         fake_stk_ext.peaks(1)-1,'*');
-    plot((0:(length(fake_stk_ext.troughs)-1)) + .5, ...
-         fake_stk_ext.troughs/fake_stk_ext.peaks(1)-1,'s')
+    fake_stack.extrema =gofr_find_peaks(fake_stack,100);
+    plot(0:(length(fake_stack.extrema.peaks)-1),fake_stack.extrema.peaks/ ...
+         fake_stack.extrema.peaks(1)-1,'*');
+    plot((0:(length(fake_stack.extrema.troughs)-1)) + .5, ...
+         fake_stack.extrema.troughs/fake_stack.extrema.peaks(1)-1,'s')
     
     plot(0:10,.87*(0:10),'m')
     title(['peaks in chp with noise (std = ' num2str(n) ')'])
@@ -62,12 +66,12 @@ function [fake_stack fake_stk_ext]= make_plots(fake_data_stack,n)
     ylabel('distance from first peak [multiples of first peak]')
     
     figure;hold on;
-    stairs(fake_stack.edges/fake_stk_ext.peaks(1),fake_stack.gofr)
-    arrayfun(@(x) plot([x x]/fake_stk_ext.peaks(1),[0 2.5],'k'), ...
-             fake_stk_ext.troughs)
+    stairs(fake_stack.edges/fake_stack.extrema.peaks(1),fake_stack.gofr)
+    arrayfun(@(x) plot([x x]/fake_stack.extrema.peaks(1),[0 2.5],'k'), ...
+             fake_stack.extrema.troughs)
     
-    arrayfun(@(x) plot([x x]/fake_stk_ext.peaks(1),[0 2.5],'r'), ...
-             fake_stk_ext.peaks)
+    arrayfun(@(x) plot([x x]/fake_stack.extrema.peaks(1),[0 2.5],'r'), ...
+             fake_stack.extrema.peaks)
     
     axis tight
     title(['g(r) in chp with noise (std = ' num2str(n) ')'])
