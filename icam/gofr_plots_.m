@@ -1,6 +1,24 @@
-function plot_gn(in,f,style_,save_)
+function gofr_plots_
+    c = load('~/collids/processed_data/20090503/time_series_gofrs.mat')
+    c = cell2mat(c.time_series_gofrs);
+    d = c([7 8 11 13 14 15]);
+    gofr_v_T(d)
+    d = arrayfun(@gofr_analyze,(d));
+    plot_gn_(d,true)
     
-    if nargin<4
+    
+    c = load('~/collids/processed_data/20090507/gofr_20090424.mat');
+    c = cell2mat(c.gofr_20090424);
+    d = c(2:end);
+    d = arrayfun(@gofr_analyze,(d));
+    gofr_v_T(d)
+    plot_gn_(d,true)
+    
+end
+
+function plot_gn_(in,save_)
+    
+    if nargin<2
         save_ = false;
     end
     
@@ -37,7 +55,6 @@ function plot_gn(in,f,style_,save_)
     
     
     for j = 1:6
-        
         tmp = arrayfun(@(x) helper(x.extrema.g),in);
         plot(temps,tmp,style_)
     end

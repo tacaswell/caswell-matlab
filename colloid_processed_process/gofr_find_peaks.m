@@ -45,6 +45,7 @@ function [out]= locate_peak(gofr,edges,range)
     out.troughs = [];
     out.peaks_indx = [];
     out.troughs_indx = [];
+    out.g = [];
     more_peaks = true;
     
     [f_m working_index] = max(gofr);
@@ -98,8 +99,8 @@ function [out]= locate_peak(gofr,edges,range)
         
         out.peaks = [out.peaks (edges(floor(c))...
                         +mod(c,1)*(diff(edges(floor(c):ceil(c)))))];
-
-           
+        out.g = [out.g b];
+        
         window_max = min([length(gofr) working_index+floor(scale* ...
                                                           working_index_n)]);
         [f_m working_index_n] = min(gofr((working_index):(window_max)));
@@ -117,7 +118,7 @@ function [out]= locate_peak(gofr,edges,range)
             more_peaks = false;
             break;
         end
-        
+        % f = a(x-c)^2 + b
         working_ar = gofr((working_index - range):(working_index + ...
                                                    range));
         
