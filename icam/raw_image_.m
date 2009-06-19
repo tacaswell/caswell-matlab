@@ -8,7 +8,11 @@ function raw_image_(pr)
 % $$$     pr3 = load(['~/collids/processed_data/20090502/' ...
 % $$$                 'processed_30um_27-2_0.mat']);
 % $$$     
-    save_ = false;
+    
+    pr = load(['~/collids/processed_data/20090502/' ...
+                'processed_30um_29-7_0.mat']);
+    
+    save_ = true;
     r = loci.formats.ChannelFiller();
     r = loci.formats.ChannelSeparator(r);
     r.setId(pr.fname);
@@ -26,11 +30,12 @@ function raw_image_(pr)
     
     tmp = cell2mat(regexpi(pr.fname,['[0-' ...
                         '9]{2}-[0-9]'],'match'))
-% $$$     title([tmp(1:2) '.' tmp(4)])
-    caxis([11000 13000])
-    caxis([4100 4800])
-    caxis([10000 12500])
 
+% $$$     caxis([11000 13000])                % 28-1
+    caxis([4100 4800])                  % 29-7
+% $$$     caxis([10000 12500])                % 27-2
+
+% $$$     caxis([9000 11000])                 % 28.9
     axis off
 
     t_date = cell2mat(regexpi(pr.fname,'[0-9]{8}', ...
