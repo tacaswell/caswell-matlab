@@ -241,7 +241,7 @@ args.fname     ={
             
             %post_fix = num2str(args.fname(j));
             post_fix = args.fname{k};
-            fname = [fbase post_fix '.tif']
+            out.fname = [fbase post_fix '.tif']
 
             
             handle.setId(fname);
@@ -249,7 +249,7 @@ args.fname     ={
             
 
             fprintf('locate peaks\n')
-            [all_pks tms] = t_extract_peaks(handle, args.p_rad(j), ...
+            [out.all_pks out.tms] = t_extract_peaks(handle, args.p_rad(j), ...
                                             args.hwhm(j), args.d_rad(j), ...
                                             args.mask_rad(j), ...
                                             args.threshold(j));
@@ -258,7 +258,7 @@ args.fname     ={
             
             
             fprintf('trim peaks\n')
-            all_pks_trim = t_trim_md(all_pks,args.scut(j), ...
+            out.all_pks_trim = t_trim_md(all_pks,args.scut(j), ...
                                      args.rgcut(j), args.ecut(j));
             fprintf('peaks trimmed\n');
 
@@ -266,6 +266,8 @@ args.fname     ={
             eval(sprintf(['save(''processed_%s'',''all_pks'', ' ...
                           '''all_pks_trim'',' ...
                           '''tms'',''fname'',''args'')'], ...
+                         post_fix));
+            eval(sprintf(['save(''processed_%s'',out)'], ...
                          post_fix));
             fprintf('saved\n')
 
