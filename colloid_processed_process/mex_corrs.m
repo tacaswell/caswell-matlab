@@ -8,7 +8,7 @@ function out = mex_corrs(fname)
     out.fname = fname;
     clear output
 
-    frames = 50;
+    frames = 300;
     offset = 650;
     tmp = tmp(tmp(:,3)<(frames+offset) & tmp(:,3)>=offset,:);
     tmp(:,3) = tmp(:,3) - offset;
