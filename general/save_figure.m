@@ -1,4 +1,4 @@
-function save_figure(fname, width_height,fig)
+function save_figure(fname, width_height,fig,fun_name,notes)
 %o function save_figure(fname, width_height)
 %o summary: Save figure as fname.eps, fname.jpg
 %o inputs:
@@ -10,6 +10,21 @@ function save_figure(fname, width_height,fig)
 %o outputs:
 %-NONE:save figures
 
+path_name = ['/home/tcaswell/colloids/figures/'];
+f_path = datestr(now,'yyyymmdd');
+
+if(exist(strcat(path_name,f_path),'dir')==0)
+    mkdir(strcat(path_name,f_path))
+end
+
+base_name = sprintf('%s/%s',...
+                      strcat(path_name,f_path),fname);
+
+if(exist(strcat(base_name,'.eps')) ||...
+   exist(strcat(base_name,'.jpg'))||...
+   exist(strcat(base_name,'.txt')))
+    error('files already exist');
+end
 
 
 
@@ -42,5 +57,17 @@ set(fig,'PaperPosition',mfs);
 set(fig,'Position',[0.0,0.0,width,height]);
 
 % Finally save the figure as an epsc with embedded tiff
-eval(sprintf('print -depsc -tiff -r150 %s', sprintf('./%s.eps',fname)));
-eval(sprintf('print -djpeg -r500 %s',sprintf('./%s.jpg',fname)));
+
+eval(sprintf('print -depsc -tiff -r150 %s', strcat(base_name,'.eps') ));
+
+eval(sprintf('print -djpeg -r500 %s',strcat(base_name,'.jpg') ));
+
+% add an meta data file
+mdf = fopen(strcat(base_name,'.txt'),'w+');
+
+fprintf(mdf,'%s\ngenerating function: %s\n',datestr(now,31),fun_name);
+fprintf(mdf,'%s\n',notes);
+
+fclose(mdf);
+
+eval(sprintf('!chmod u-w %s*',base_name))
