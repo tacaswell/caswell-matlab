@@ -16,7 +16,7 @@ function proc2hdf(fname)
     attr_details.AttachType = 'group';
     hdf5write(fout, attr_details, fname);
     for j = 0:1199                       
-        pks_tmp = pks(pks(:,end)==(j+1),:);
+        pks_tmp = single(pks(pks(:,end)==(j+1),:));
         
         dset_details.Location = sprintf('/frame%05d/',j);
         
