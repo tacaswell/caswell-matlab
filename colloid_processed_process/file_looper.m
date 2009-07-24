@@ -12,7 +12,7 @@ function var_out= file_looper( fun)
     
 
 %     base_path = '/home/tcaswell/collids/processed_data/20090427/';
-    base_path = '/home/tcaswell/collids/processed_data/20090502/';
+    base_path = '/home/tcaswell/colloids/processed_data/20090502/';
     ext = 'mat';
     base_name = 'processed';
     delim = '_';
