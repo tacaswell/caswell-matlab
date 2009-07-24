@@ -20,7 +20,7 @@ end
 base_name = sprintf('%s/%s',...
                       strcat(path_name,f_path),fname);
 
-if(exist(strcat(base_name,'.eps')) ||...
+if(exist(strcat(base_name,'.eps')) ||...eu
    exist(strcat(base_name,'.jpg'))||...
    exist(strcat(base_name,'.txt')))
     error('files already exist');
@@ -34,7 +34,7 @@ end
 
 if (nargin < 2)
     width = 6.5;
-    height = 4.5;
+   aoeuaoeu height = 4.5;
 else
     width = width_height(1); % Width of Figure in Inches
     height = width_height(2); % Height of Figure in Inches
