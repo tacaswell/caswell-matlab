@@ -8,7 +8,7 @@ function circ_handles = nd2_gui_3(filename)
 %  Initialization tasks
 %% define constants
     threshold = 1;         %threshold for pkfnd
-    p_rad = 5;           %size of particles to be looking for
+    p_rad = 4;           %size of particles to be looking for
     image_index = 10;
     series_index = 0;
     hwhm = 1.3;
@@ -25,9 +25,9 @@ function circ_handles = nd2_gui_3(filename)
     
 %%set up file handle
     r = loci.formats.ChannelFiller();
-    r = loci.formats.ChannelSeparator(r);
+   
     %%uncomment to stich files
-    %  r = loci.formats.FileStitcher(r);
+% $$$     r = loci.formats.FileStitcher(r);
 
     r.setId(filename);
 
@@ -47,15 +47,16 @@ circ_handles = [];
     buffer_index = zeros(1,buffer_length);
     buffer_current = 1;
     buffer_pix = zeros(h,w,buffer_length);
+    buffer_pix2 = zeros(h,w,buffer_length);
     buffer_pos = cell(1,buffer_length);
     buffer_center = 10;
     rebuild_buffer;
     
     
-    
+   
 %%  Construct the components
 
-fh = figure('position',[20 40 900 900]);
+fh = figure('position',[20 40 1200 900]);
 
 set(fh,'defaulttextinterpreter','none')
 uicontrol('DeleteFcn',@clean_up)
@@ -70,6 +71,7 @@ ec = changer('ecut',[580 30] ,fh,@adjust_e_cut);
 sc = changer('scut',[660 30] ,fh,@adjust_shift_cut);
 rc = changer('rgcut',[740 30] ,fh,@adjust_rg_cut);
 oc = changer('mode',[820 30] ,fh,@adjust_disp_mode);
+ps = save_pram('save param',[900 30],fh,@psave);
 set(bc,'string',num2str(buffer_center));
 set(tc,'string',num2str(threshold));
 set(ic,'string',num2str(image_index));
@@ -127,8 +129,8 @@ title('I v rg');
 
 %I vs rg
 fh5 = figure;
-[hist_v hist_bins] = hist(rand(1,50),0:.01:1);
-hh = plot(hist_bins,hist_v);
+[hist_v hist_bins] = hist(rand(1,50),0:.02e:1);
+hh = stairs(hist_bins,hist_v);
 
 title('disp mod 1');
 
@@ -137,9 +139,9 @@ update_display;
 
 
 function clean_up(a,b)
-    1
-   r.close(); 
-
+    
+    r.close(); 
+    clear r;
 end
 %%set up buffer controls
     
@@ -253,8 +255,11 @@ function int = adjust_disp_mode(int)
        caxis([0 50])
    end
    
-   
-   rebuild_buffer;
+   tmp = buffer_pix;
+   buffer_pix = buffer_pix2;
+   buffer_pix2 = tmp;
+   clear tmp;
+% $$$    rebuild_buffer;
    update_display;
 end
 
@@ -271,6 +276,37 @@ function int = adjust_buffer(int)
     buffer_center = int;
     update_buffer;
     update_display;
+end
+
+
+function p_save = psave()
+% P_SAVE - saves the parameter
+%   
+    
+    
+    [fpath name] = fileparts(filename);
+
+    base_name = sprintf('%s/%s',...
+                        fpath,name);
+
+    mdf = fopen(strcat(base_name,'.pram'),'w+');
+    
+    fprintf(mdf,'%s',datestr(now,31));
+    fprintf(mdf,'\n%s: %3f','threshold'   , threshold    );   
+    fprintf(mdf,'\n%s: %3f','p_rad'       , p_rad        );   
+    fprintf(mdf,'\n%s: %3f','image_index' , image_index  );
+    fprintf(mdf,'\n%s: %3f','series_index', series_index );
+    fprintf(mdf,'\n%s: %3f','hwhm'        , hwhm         );
+    fprintf(mdf,'\n%s: %3f','d_rad'       , d_rad        );
+    fprintf(mdf,'\n%s: %3f','mask_rad'    , mask_rad     );
+    fprintf(mdf,'\n%s: %3f','shift_cut'   , shift_cut    );
+    fprintf(mdf,'\n%s: %3f','rg_cut'      , rg_cut       );
+    fprintf(mdf,'\n%s: %3f','e_cut'       , e_cut        );
+
+    
+    fclose(mdf);
+
+    
 end
 
 
@@ -327,8 +363,10 @@ function rebuild_buffer
         
         if disp_mode ==0
             buffer_pix(:,:,j) = b_passed + 0*centers;
+            buffer_pix2(:,:,j) = img;%.*(ones(size(centers))-centers);
         else
             buffer_pix(:,:,j) = img;%.*(ones(size(centers))-centers);
+            buffer_pix2(:,:,j) = b_passed + 0*centers;
         end
         buffer_pos{j} = pks(:,[1 3 2 4:9]);
        
@@ -389,8 +427,10 @@ function update_buffer
         % convert Java BufferedImage to MATLAB image
         if disp_mode==0
             buffer_pix(:,:,j) = b_passed + 0*centers;
+            buffer_pix2(:,:,j) = img;%.*(ones(size(centers))-centers);
         else
             buffer_pix(:,:,j) = img;%.*(ones(size(centers))-centers);
+            buffer_pix2(:,:,j) = b_passed + 0*centers;
         end
         buffer_pos{j} = pks(:,[1 3 2 4:9]);
 
@@ -442,7 +482,9 @@ function update_display
 
     %    htmp = zeros(size(get(hh,'ydata')));
     
-    set(hh,'ydata', hist(mod(reshape(tmp(:,[4 5]),1,[]),1),0:.01:1));
+    narp = histc(mod(reshape(tmp(:,[4 5]),1,[]),1),0:.02:1);
+    sum(narp)
+    set(hh,'ydata', narp);
 
     
     

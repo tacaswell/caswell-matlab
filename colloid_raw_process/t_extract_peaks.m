@@ -1,4 +1,4 @@
-function [ all_pks tm_vec]= t_extract_peaks(handle, p_rad, hwhm,d_rad,mask_rad,threshold)
+function [ all_pks tm_vec dims]= t_extract_peaks(handle, p_rad, hwhm,d_rad,mask_rad,threshold)
 %o function [ all_pks tm_vec]= t_extract_peaks(handle, p_rad, hwhm,d_rad,mask_rad,threshold)
 %o summary: takes a file handle and a number of parameters and uses the
 %mex file that calls peter's code
@@ -17,6 +17,7 @@ function [ all_pks tm_vec]= t_extract_peaks(handle, p_rad, hwhm,d_rad,mask_rad,t
     handle.setSeries(0)
     w = handle.getSizeX();
     h = handle.getSizeY(); 
+    dims = [w h];
     numImages = handle.getImageCount();
     
     all_pks = zeros(18e6,10);

@@ -13,7 +13,7 @@ function plot_gn(in,f,style_,save_)
     end
 
     
-    temps = arrayfun(@(x) cell2mat(regexpi(x.stack_name,['[0-9]{2}-' ...
+    temps = arrayfun(@(x) cell2mat(regexpi(x.stack_fname,['[0-9]{2}-' ...
                         '[0-9]'],'match')),in,'uniformoutput', ...
                    false);
     temps = cellfun(@(x) str2double([x(1:2) '.' x(4)]),temps)
@@ -52,7 +52,7 @@ function plot_gn(in,f,style_,save_)
     xlabel('Temerature [^\circC]')
     ylabel('g(r) peak height')
     
-    t_date = cell2mat(regexpi(in(1).stack_name,'[0-9]{8}', ...
+    t_date = cell2mat(regexpi(in(1).stack_fname,'[0-9]{8}', ...
                               'match'));
 
 
