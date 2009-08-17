@@ -9,7 +9,7 @@ function master_script2(fpath)
 %-NONE:
     fargs.fbase = fpath;
     fargs.fbase =['/home/tcaswell/colloids/data/polyNIPAM_batch_12/' ...
-                  '20090730/jammed/tmp_series/'];    
+                  '20090730/'];    
     
     
     save_path = ['/home/tcaswell/colloids/processed_data/'];
@@ -35,7 +35,7 @@ function master_script2(fpath)
     for k = 1:length(fargs.fname)
         tic;
             p_fname = strcat(fargs.fbase, fargs.fname{k},'.pram')
-            out.stakc_name = strcat(fargs.fbase, fargs.fname{k},'.tif');
+            out.stack_fname = strcat(fargs.fbase, fargs.fname{k},'.tif');
 
             save_name = strcat(save_path,date_path,'/processed_',fargs.fname{k})
             
@@ -46,7 +46,7 @@ function master_script2(fpath)
 
             args = parse_pram(p_fname)
             out.args = args;
-            handle.setId(out.fname);
+            handle.setId(out.stack_fname);
             fprintf('handle set\n')
             
 

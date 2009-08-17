@@ -20,8 +20,12 @@ function out = mex_gofr(fname)
 % $$$     out.fname = fname;
 % $$$     clear output
 % $$$     
+    
+    x_max = 10*ceil(max(tmp(:,1))/10)
+    y_max = 10*ceil(max(tmp(:,2))/10)
+    
     [out.gofr out.edges]...
-        = basic_static(tmp,520,1390,max(tmp(:,end))+1,100,5000);
+        = basic_static(tmp,x_max,y_max,max(tmp(:,end))+1,100,5000);
 
     clear basic_static;
 end
