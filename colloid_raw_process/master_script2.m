@@ -8,8 +8,6 @@ function master_script2(fpath)
 %o outputs:
 %-NONE:
     fargs.fbase = fpath;
-    fargs.fbase =['/home/tcaswell/colloids/data/polyNIPAM_batch_12/' ...
-                  '20090730/'];    
     
     
     save_path = ['/home/tcaswell/colloids/processed_data/'];

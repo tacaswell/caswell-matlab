@@ -129,7 +129,7 @@ title('I v rg');
 
 %I vs rg
 fh5 = figure;
-[hist_v hist_bins] = hist(rand(1,50),0:.02e:1);
+[hist_v hist_bins] = hist(rand(1,50),0:.02:1);
 hh = stairs(hist_bins,hist_v);
 
 title('disp mod 1');
