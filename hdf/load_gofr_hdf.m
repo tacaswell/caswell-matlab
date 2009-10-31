@@ -11,8 +11,15 @@ end
 function out =helper_1(in)
    
     out.name = in.Name;
-    out.bin_edges = hdf5read(in.Filename,[in.Name '/bin_edges']);
-    out.bin_count = hdf5read(in.Filename,[in.Name '/bin_count']);
+    [junk out.tmp] = parse_temperature(out.name);
+    out.edges = hdf5read(in.Filename,[in.Name '/bin_edges']);
     
+
+   
+    out.gofr = hdf5read(in.Filename,[in.Name '/bin_count']);
+    %delete this after this round of data
+    if out.gofr(end)<0
+        out.gofr = out.gofr/out.gofr(end);
+    end
 end
     

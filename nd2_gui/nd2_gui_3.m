@@ -92,9 +92,10 @@ image_index_disp = uicontrol(fh,'style','text','string',image_index,...
 
 colormap(gray)
 hold on;
+scatter_h2 = scatter([],[],'g*');
 scatter_h = scatter([],[],'rx');
 
-
+scatter_h3 = scatter([],[],'b.');
 %%generate exctra graphs
 
 %e v rg
@@ -471,13 +472,19 @@ function update_display
     %    set(lh4,'ydata',get(get(fh3,'currentaxes'),'ylim'))
     % set(lh4,'xdata',[e_cut e_cut]);
     
+
+    
+    set(scatter_h2,'xdata',tmp(tmp(:,8)>1,2)+1);
+    set(scatter_h2,'ydata',tmp(tmp(:,8)>1,3)+1);
+    set(scatter_h3,'xdata',tmp(:,2)+1-tmp(:,5));
+    set(scatter_h3,'ydata',tmp(:,3)+1-tmp(:,4));
     
     tmp = t_trim_md(tmp,shift_cut,rg_cut,e_cut);
     
     set(scatter_h,'xdata',tmp(:,2)+1);
     set(scatter_h,'ydata',tmp(:,3)+1);
     
-    
+
     %    figure(fh5)
 
     %    htmp = zeros(size(get(hh,'ydata')));

@@ -1,9 +1,4 @@
-% in is a cell array which is of structs gofr and edges that are the values
-% of the bins in g(r) and the bottom edges of the bins
-
-% out is a cell array with vectors of the values of the extreama
-
-function out = gofr_find_peaks(gofr_data, range)
+sfunction out = gofr_find_peaks(gofr_data, range)
 % $$$     
 % $$$     max_r = cellfun(@(x) x.edges(find(x.gofr==max(x.gofr))),in, ...
 % $$$                     'uniformoutput',false );
@@ -54,9 +49,13 @@ function [out]= locate_peak(gofr,edges,range)
 
         working_ar = gofr((working_index - range):(working_index + ...
                                                    range));
-        
-        params = lscov([(0:(2*range))'.^2 (0:(2*range))' ones(2*range ...
-                                                          +1,1)], working_ar');
+
+       A =[(0:(2*range))'.^2 (0:(2*range))' ones(2*range ...
+                                                          +1,1)];
+       B = reshape(working_ar,[],1);
+% $$$         params = lscov([(0:(2*range))'.^2 (0:(2*range))' ones(2*range ...
+% $$$                                                           +1,1)], reshape(working_ar,[],1));
+        params = lscov(A,B);
         
         a = params(1);
         c = -params(2)/(2*a);
@@ -122,8 +121,8 @@ function [out]= locate_peak(gofr,edges,range)
         working_ar = gofr((working_index - range):(working_index + ...
                                                    range));
         
-        params = lscov([(0:(2*range))'.^2 (0:(2*range))' ones(2*range ...
-                                                          +1,1)], working_ar');
+        B = reshape(working_ar,[],1);
+        params = lscov(A,B );
         
         a = params(1);
         c = -params(2)/(2*a);

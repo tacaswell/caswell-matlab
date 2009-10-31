@@ -3,8 +3,11 @@ function [temp_str temp_num] = parse_temperature(fname)
 %   
     temp_str = regexpi(fname,['[0-9]{2}-' ...
                         '[0-9]'],'match');
-    temp_str = temp_str{1};
-    temp_str(3) = '.';
-    temp_num = str2double(temp_str);
-    
+    if(~isempty(temp_str))
+        temp_str = temp_str{1};
+        temp_str(3) = '.';
+        temp_num = str2double(temp_str);
+    else
+        temp_num = 0;
+    end
 end

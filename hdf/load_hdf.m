@@ -17,7 +17,7 @@ function data = load_hdf(fname)
         tmp(:,6)=hdf5read(tmp_group.Filename,[tmp_group.Name '/intensity']);
         tmp(:,7)=hdf5read(tmp_group.Filename,[tmp_group.Name '/R2']);
         tmp(:,8)=hdf5read(tmp_group.Filename,[tmp_group.Name '/multiplicity']);
-        tmp(:,9)=hdf5read(tmp_group.Filename,[tmp_group.Name '/eccentricty']);
+        tmp(:,9)=hdf5read(tmp_group.Filename,[tmp_group.Name '/eccentricity']);
         tmp(:,end) = parse_frame_name(tmp_group.Name);
         
         if(count + part_count > size(data,1))
