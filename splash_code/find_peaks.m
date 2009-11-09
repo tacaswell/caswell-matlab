@@ -14,7 +14,7 @@ function indx = find_peaks(profile,center_i,disp_)
     % average slope on the right side of the peak
     range = 5;
     % how far to the right side of the peak to look at
-    peak_cut = 0.15;
+    peak_cut = 0.1;
     % minimum peak height to be kept
     
     
@@ -47,12 +47,12 @@ function indx = find_peaks(profile,center_i,disp_)
     end
 end
 
-function [keep val1 val2] =keep_peak(profile,indx,thersh,range)
+function [keep val1] =keep_peak(profile,indx,thersh,range)
 % KEEP_PEAK - determines if the peak is real or not, atleast to first
 % order, hence the next couple of cutting functions
     val1 = -mean(diff(profile(indx:(indx+ range))));
-    val2 = profile(indx-3) - profile(indx);
-    if val1>thersh & val2<0
+
+    if val1>thersh
         keep = true;
     else
         keep = false;
