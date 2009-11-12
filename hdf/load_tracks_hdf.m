@@ -1,15 +1,15 @@
-function out = load_gofr_hdf(hinfo,track_num)
+function out = load_tracks_hdf(hinfo,track_num)
 % LOAD_GOFR_HDF - reads in gofr data from an hdf file
 %   
     
-    tic
+    tic;
 
     in = hinfo.GroupHierarchy.Groups(track_num)
-    toc
-    out.name = in.Name
+    toc;
+    out.name = in.Name;
 
 
-    tic
+    tic;
     out.data = zeros(in.Datasets(1).Dims,4);
     
     out.data(:,1)=hdf5read(in.Filename,[in.Name '/x']);
@@ -18,14 +18,14 @@ function out = load_gofr_hdf(hinfo,track_num)
     out.data(:,4)=hdf5read(in.Filename,[in.Name '/intensity']);
     
 % $$$     g = arrayfun(@helper_1,hinfo.GroupHierarchy.Groups);
-toc
+toc;
  
 end
 
 
 function out =helper_1(in)
    
-    out.name = in.Name
+    out.name = in.Name;
 
 
     
