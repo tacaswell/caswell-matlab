@@ -9,7 +9,7 @@ function circ_handles = nd2_gui_3(filename)
 %% define constants
     threshold = 1;         %threshold for pkfnd
     p_rad = 4;           %size of particles to be looking for
-    image_index = 10;
+    image_index = 1;
     series_index = 0;
     hwhm = 1.3;
     d_rad = 3;
@@ -21,7 +21,9 @@ function circ_handles = nd2_gui_3(filename)
 
     disp_mode = 1;
     
-%%set up file handle
+    top_cut = 1/1000;
+    
+%%set up filef handle
     
 %%set up file handle
     r = loci.formats.ChannelFiller();
@@ -42,14 +44,14 @@ circ_handles = [];
     
 
 %%set up buffers
-    buffer_frames = 2;
+    buffer_frames = 1;
     buffer_length = 2*buffer_frames + 1;
     buffer_index = zeros(1,buffer_length);
     buffer_current = 1;
     buffer_pix = zeros(h,w,buffer_length);
     buffer_pix2 = zeros(h,w,buffer_length);
     buffer_pos = cell(1,buffer_length);
-    buffer_center = 10;
+    buffer_center = image_index;
     rebuild_buffer;
     
     
@@ -71,7 +73,8 @@ ec = changer('ecut',[580 30] ,fh,@adjust_e_cut);
 sc = changer('scut',[660 30] ,fh,@adjust_shift_cut);
 rc = changer('rgcut',[740 30] ,fh,@adjust_rg_cut);
 oc = changer('mode',[820 30] ,fh,@adjust_disp_mode);
-ps = save_pram('save param',[900 30],fh,@psave);
+Ic = changer('top cut',[880 30] ,fh,@adjust_top_cut);
+ps = save_pram('save param',[960 30],fh,@psave);
 set(bc,'string',num2str(buffer_center));
 set(tc,'string',num2str(threshold));
 set(ic,'string',num2str(image_index));
@@ -83,7 +86,7 @@ set(ec,'string',num2str(e_cut));
 set(sc,'string',num2str(shift_cut));
 set(rc,'string',num2str(rg_cut));
 set(oc,'string',num2str(disp_mode));
-
+set(Ic,'string',num2str(top_cut*1000));
 img_frame = imagesc(squeeze(buffer_pix(:,:,buffer_current)));
 title(filename)
 axis image
@@ -132,8 +135,13 @@ title('I v rg');
 fh5 = figure;
 [hist_v hist_bins] = hist(rand(1,50),0:.02:1);
 hh = stairs(hist_bins,hist_v);
-
 title('disp mod 1');
+
+%value histogram;
+fh6 = figure;
+[val_hist_v val_hist_bins] = hist(rand(1,50),0:.02:1);
+vh = stairs(val_hist_bins,val_hist_v);
+title('pixel value histogram');
 
 
 update_display;
@@ -249,12 +257,7 @@ function int = adjust_disp_mode(int)
     
     
    disp_mode = int
-   fh
-   if (disp_mode==1)
-       caxis([3000 10000])
-   elseif (disp_mode==0)
-       caxis([0 50])
-   end
+   figure(fh);
    
    tmp = buffer_pix;
    buffer_pix = buffer_pix2;
@@ -262,6 +265,13 @@ function int = adjust_disp_mode(int)
    clear tmp;
 % $$$    rebuild_buffer;
    update_display;
+   
+   if (disp_mode==1)
+       caxis([min(min(get(img_frame,'cdata'))) max(max(get(img_frame,'cdata')))])
+   elseif (disp_mode==0)
+       caxis([0 100])
+   end
+
 end
 
 
@@ -279,35 +289,75 @@ function int = adjust_buffer(int)
     update_display;
 end
 
+function int = adjust_top_cut(int)
+    if int<0
+        int = 0;
+    end
+    if int>100
+        int = 100;
+    end
+    top_cut = int/1000;
+    display(top_cut);
+    rebuild_buffer;
+    update_display;
+end
+
 
 function p_save = psave()
 % P_SAVE - saves the parameter
 %   
     
-    
+    display(filename)
     [fpath name] = fileparts(filename);
 
-    base_name = sprintf('%s/%s',...
-                        fpath,name);
-
-    mdf = fopen(strcat(base_name,'.pram'),'w+');
-    
-    fprintf(mdf,'%s',datestr(now,31));
-    fprintf(mdf,'\n%s: %3f','threshold'   , threshold    );   
-    fprintf(mdf,'\n%s: %3f','p_rad'       , p_rad        );   
-    fprintf(mdf,'\n%s: %3f','image_index' , image_index  );
-    fprintf(mdf,'\n%s: %3f','series_index', series_index );
-    fprintf(mdf,'\n%s: %3f','hwhm'        , hwhm         );
-    fprintf(mdf,'\n%s: %3f','d_rad'       , d_rad        );
-    fprintf(mdf,'\n%s: %3f','mask_rad'    , mask_rad     );
-    fprintf(mdf,'\n%s: %3f','shift_cut'   , shift_cut    );
-    fprintf(mdf,'\n%s: %3f','rg_cut'      , rg_cut       );
-    fprintf(mdf,'\n%s: %3f','e_cut'       , e_cut        );
+    doc_node = com.mathworks.xml.XMLUtils.createDocument('iden');
+    doc_root_node = doc_node.getDocumentElement;
+    doc_root_node.setAttribute('date',datestr(now,31))
 
     
-    fclose(mdf);
+    fprams = {
+        'threshold',
+        'hwhm',
+        'shift_cut',
+        'rg_cut',
+        'e_cut',
+        'top_cut'
+            }
+    
+    iprams = {
+        'p_rad',
+        'd_rad',
+        'mask_rad'}
+    
+    for j = 1:max(size(fprams))
+        p = fprams{j};
+        tmp_elm = doc_node.createElement('param');   
+        tmp_elm.setAttribute('key',p)
+        tmp_elm.setAttribute('type','float')
+        tmp_elm.setAttribute('value',sprintf('%f',eval( p )))
+        doc_root_node.appendChild(tmp_elm);
+    end
+    
+    
+    
+    for j = 1:max(size(iprams))
+        tmp_elm = doc_node.createElement('param');   
+        tmp_elm.setAttribute('key',p)
+        tmp_elm.setAttribute('type','int')
+        tmp_elm.setAttribute('value',sprintf('%i',eval( p )))
+        doc_root_node.appendChild(tmp_elm);
+        p = iprams{j};
+
+    end
+    
 
     
+    
+    base_name = [sprintf('%s/%s',...
+                         fpath,name),'.xml'];
+    
+    xmlwrite(base_name,doc_node);
+        
 end
 
 
@@ -334,6 +384,8 @@ end
 
 %%fill buffer from scratch
 function rebuild_buffer
+
+
     if buffer_center-buffer_frames>0 && buffer_center+buffer_frames<numImages
         buffer_index =...
             (buffer_center-buffer_frames):(buffer_center+buffer_frames);
@@ -346,17 +398,17 @@ function rebuild_buffer
     end
     
     buffer_index
-    buffer_current = find(buffer_index==buffer_center);
+% $$$     buffer_current = find(buffer_index==buffer_center);
     
     for j = 1:buffer_length
         img = extract_image(r,buffer_index(j));
         
         tic
-            [pks b_passed centers] = iden(img,[p_rad,hwhm,d_rad, ...
-                            mask_rad,threshold,0]);
+            [pks b_passed centers] = matlab_process(img,[p_rad,hwhm,d_rad, ...
+                            mask_rad,threshold,0],top_cut);
             
         toc
-        clear iden
+        clear matlab_process
     
         pks = pks';
 
@@ -395,6 +447,8 @@ function update_buffer
     end
     
     fprintf('spot2\n')
+    display(buffer_index(buffer_current_tmp));
+    
     if buffer_center-buffer_frames>0 && buffer_center+buffer_frames<numImages
         %handle cases in middle of stack
         buffer_index_tmp = (buffer_center-buffer_frames):(buffer_center+buffer_frames);
@@ -419,13 +473,13 @@ function update_buffer
         
         tic
             % convert Java BufferedImage to MATLAB image
-            [pks b_passed centers] = iden(img,[p_rad,hwhm,d_rad,mask_rad, ...
-                                threshold,0]);
+            [pks b_passed centers] = matlab_process(img,[p_rad,hwhm,d_rad,mask_rad, ...
+                                threshold,0],top_cut);
         toc
-        clear iden
+        clear matlab_process
         pks = pks';
 
-        % convert Java BufferedImage to MATLAB image
+        
         if disp_mode==0
             buffer_pix(:,:,j) = b_passed + 0*centers;
             buffer_pix2(:,:,j) = img;%.*(ones(size(centers))-centers);
@@ -446,7 +500,21 @@ end
 
 
 function update_display
-    set(img_frame,'cdata',squeeze(buffer_pix(:,:,buffer_current)));
+    
+    display(buffer_current)
+    tmp_img = squeeze(buffer_pix(:,:,buffer_current));
+    if( disp_mode ==1)
+        sort_tmp = sort(tmp_img(:),'descend');
+        tmp_img(tmp_img>sort_tmp(floor(prod(size(tmp_img))*top_cut))) = sort_tmp(floor(prod(size(tmp_img))*top_cut));
+    end
+    [h_val h_bins] = hist(reshape( tmp_img ,1,[]),100);
+    set(vh,'ydata',h_val(2:end));    
+    set(vh,'xdata',h_bins(2:end));    
+    
+    set(img_frame,'cdata',tmp_img);
+    clear tmp_img  ;
+
+    
     tmp = buffer_pos{buffer_current};
     
     set(sc2,'xdata',tmp(:,9));
@@ -493,10 +561,8 @@ function update_display
     sum(narp)
     set(hh,'ydata', narp);
 
-    
-    
-    clear tmp;
 
+    clear tmp;
     %  redraw_circ(buffer_current);
     %    axis equal
 end

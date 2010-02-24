@@ -9,9 +9,10 @@ function data = load_hd5_link(fname)
         part_count =tmp_group.Datasets(1).Dims ;
         tmp = zeros(part_count,10);
         
-        
-        tmp(:,1)=hdf5read(tmp_group.Filename,[tmp_group.Name '/x'])*.107576;
-        tmp(:,2)=hdf5read(tmp_group.Filename,[tmp_group.Name '/y'])*.107576;
+% $$$         scale = .107576;
+        scale = 1;
+        tmp(:,1)=hdf5read(tmp_group.Filename,[tmp_group.Name '/x'])*scale;
+        tmp(:,2)=hdf5read(tmp_group.Filename,[tmp_group.Name '/y'])*scale;
         tmp(:,3)=hdf5read(tmp_group.Filename,[tmp_group.Name '/z']);
         tmp(:,4)=hdf5read(tmp_group.Filename,[tmp_group.Name '/intensity']);
         
