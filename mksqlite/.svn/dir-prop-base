@@ -1,0 +1,15 @@
+K 10
+svn:ignore
+V 59
+*.aps
+*.nvb
+*.suo
+*.pch
+*.obj
+*.ilk
+*.pdb
+*.idb
+*.*~
+*.ncb
+
+END
