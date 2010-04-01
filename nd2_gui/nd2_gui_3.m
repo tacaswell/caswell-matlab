@@ -96,7 +96,7 @@ image_index_disp = uicontrol(fh,'style','text','string',image_index,...
 colormap(gray)
 hold on;
 scatter_h2 = scatter([],[],'g*');
-scatter_h = scatter([],[],'rx');
+scatter_h = scatter([],[],'r.');
 
 scatter_h3 = scatter([],[],'b.');
 %%generate exctra graphs
