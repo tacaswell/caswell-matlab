@@ -544,8 +544,8 @@ function update_display
     
     set(scatter_h2,'xdata',tmp(tmp(:,8)>1,2)+1);
     set(scatter_h2,'ydata',tmp(tmp(:,8)>1,3)+1);
-    set(scatter_h3,'xdata',tmp(:,2)+1-tmp(:,5));
-    set(scatter_h3,'ydata',tmp(:,3)+1-tmp(:,4));
+    set(scatter_h3,'xdata',tmp(:,2)+1-tmp(:,4));
+    set(scatter_h3,'ydata',tmp(:,3)+1-tmp(:,5));
     
     tmp = t_trim_md(tmp,shift_cut,rg_cut,e_cut);
     
