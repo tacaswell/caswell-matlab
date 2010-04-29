@@ -8,15 +8,15 @@ function circ_handles = nd2_gui_3(filename)
 %  Initialization tasks
 %% define constants
     threshold = 1;         %threshold for pkfnd
-    p_rad = 4;           %size of particles to be looking for
+    p_rad = 5;           %size of particles to be looking for
     image_index = 1;
     series_index = 0;
-    hwhm = 1.3;
+    hwhm = 1.4;
     d_rad = 3;
     mask_rad = 4;
 
     shift_cut = 1.5;
-    rg_cut = 8;
+    rg_cut = 7.5;
     e_cut = .6;
 
     disp_mode = 1;
@@ -39,11 +39,11 @@ function circ_handles = nd2_gui_3(filename)
     numImages = r.getImageCount();
     %    buffer_pk = cell(1,numImages);    
 
-%%Other handles
-circ_handles = [];
+    %%Other handles
+    circ_handles = [];
     
 
-%%set up buffers
+    %%set up buffers
     buffer_frames = 1;
     buffer_length = 2*buffer_frames + 1;
     buffer_index = zeros(1,buffer_length);
@@ -266,11 +266,6 @@ function int = adjust_disp_mode(int)
 % $$$    rebuild_buffer;
    update_display;
    
-   if (disp_mode==1)
-       caxis([min(min(get(img_frame,'cdata'))) max(max(get(img_frame,'cdata')))])
-   elseif (disp_mode==0)
-       caxis([0 100])
-   end
 
 end
 
@@ -341,12 +336,13 @@ function p_save = psave()
     
     
     for j = 1:max(size(iprams))
+        p = iprams{j};
         tmp_elm = doc_node.createElement('param');   
         tmp_elm.setAttribute('key',p)
         tmp_elm.setAttribute('type','int')
         tmp_elm.setAttribute('value',sprintf('%i',eval( p )))
         doc_root_node.appendChild(tmp_elm);
-        p = iprams{j};
+        
 
     end
     
@@ -421,7 +417,7 @@ function rebuild_buffer
             buffer_pix(:,:,j) = img;%.*(ones(size(centers))-centers);
             buffer_pix2(:,:,j) = b_passed + 0*centers;
         end
-        buffer_pos{j} = pks(:,[1 3 2 4:9]);
+        buffer_pos{j} = pks(:,[1 3 2 5 4 6:9]);
        
         
     end
@@ -487,7 +483,7 @@ function update_buffer
             buffer_pix(:,:,j) = img;%.*(ones(size(centers))-centers);
             buffer_pix2(:,:,j) = b_passed + 0*centers;
         end
-        buffer_pos{j} = pks(:,[1 3 2 4:9]);
+        buffer_pos{j} = pks(:,[1 3 2 5 4 6:9]);
 
  
         
@@ -503,10 +499,15 @@ function update_display
     
     display(buffer_current)
     tmp_img = squeeze(buffer_pix(:,:,buffer_current));
-    if( disp_mode ==1)
-        sort_tmp = sort(tmp_img(:),'descend');
-        tmp_img(tmp_img>sort_tmp(floor(prod(size(tmp_img))*top_cut))) = sort_tmp(floor(prod(size(tmp_img))*top_cut));
-    end
+    % if( disp_mode ==1)
+    %     sort_tmp = sort(tmp_img(:),'descend');
+    %     cut_off = sort_tmp(floor(prod(size(tmp_img))*top_cut));
+    %     display('number of bins cut')
+    %     sum(sum(tmp_img>cut_off))
+    %     display(cut_off)
+    %     tmp_img(tmp_img>cut_off) = cut_off;
+
+    % end
     [h_val h_bins] = hist(reshape( tmp_img ,1,[]),100);
     set(vh,'ydata',h_val(2:end));    
     set(vh,'xdata',h_bins(2:end));    
@@ -542,10 +543,11 @@ function update_display
     
 
     
-    set(scatter_h2,'xdata',tmp(tmp(:,8)>1,2)+1);
-    set(scatter_h2,'ydata',tmp(tmp(:,8)>1,3)+1);
+    set(scatter_h2,'xdata',tmp(tmp(:,8)>1,2)+1-tmp(tmp(:,8)>1,4));
+    set(scatter_h2,'ydata',tmp(tmp(:,8)>1,3)+1-tmp(tmp(:,8)>1,5));
     set(scatter_h3,'xdata',tmp(:,2)+1-tmp(:,4));
     set(scatter_h3,'ydata',tmp(:,3)+1-tmp(:,5));
+
     
     tmp = t_trim_md(tmp,shift_cut,rg_cut,e_cut);
     
@@ -563,6 +565,8 @@ function update_display
 
 
     clear tmp;
+    
+    caxis auto
     %  redraw_circ(buffer_current);
     %    axis equal
 end
