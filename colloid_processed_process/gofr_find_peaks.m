@@ -1,4 +1,4 @@
-sfunction out = gofr_find_peaks(gofr_data, range)
+function out = gofr_find_peaks(gofr_data, range)
 % $$$     
 % $$$     max_r = cellfun(@(x) x.edges(find(x.gofr==max(x.gofr))),in, ...
 % $$$                     'uniformoutput',false );
