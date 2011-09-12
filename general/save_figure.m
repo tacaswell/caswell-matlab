@@ -1,4 +1,4 @@
-function save_figure(fname, width_height,fig,fun_name,notes)
+function save_figure(fname, width_height,fig)%,fun_name,notes)
 %o function save_figure(fname, width_height)
 %o summary: Save figure as fname.eps, fname.jpg
 %o inputs:
@@ -11,7 +11,7 @@ function save_figure(fname, width_height,fig,fun_name,notes)
 %-NONE:save figures
 
 path_name = ['/home/tcaswell/colloids/figures/'];
-f_path = datestr(now,'yyyymmdd');
+f_path = datestr(now,'yyyy-mm-dd');
 
 if(exist(strcat(path_name,f_path),'dir')==0)
     mkdir(strcat(path_name,f_path))
@@ -62,12 +62,12 @@ eval(sprintf('print -depsc -tiff -r150 %s', strcat(base_name,'.eps') ));
 
 eval(sprintf('print -djpeg -r500 %s',strcat(base_name,'.jpg') ));
 
-% add an meta data file
-mdf = fopen(strcat(base_name,'.txt'),'w+');
+% % add an meta data file
+% mdf = fopen(strcat(base_name,'.txt'),'w+');
 
-fprintf(mdf,'%s\ngenerating function: %s\n',datestr(now,31),fun_name);
-fprintf(mdf,'%s\n',notes);
+% fprintf(mdf,'%s\ngenerating function: %s\n',datestr(now,31),fun_name);
+% fprintf(mdf,'%s\n',notes);
 
-fclose(mdf);
+% fclose(mdf);
 
-eval(sprintf('!chmod u-w %s*',base_name))
+% eval(sprintf('!chmod u-w %s*',base_name))
