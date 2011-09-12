@@ -14,11 +14,23 @@ function img = extract_image(handle,ind)
     w = cast(handle.getSizeX,'double');
     h = cast(handle.getSizeY,'double');
     
-    img =typecast(handle.openBytes(ind,0, 0, w, h),'uint16');
+    
+    handle.isRGB()
+    bpp = handle.getBitsPerPixel()
+    if bpp == 8
+        img =typecast(handle.openBytes(ind,0, 0, w, h),'uint8');
+    elseif bpp == 16
+        img =typecast(handle.openBytes(ind,0, 0, w, h),'uint16');
+    else
+        die
+    end
+    size(img)
     img = cast(img,'double');
     
-
-    
+% $$$     size(img)
+% $$$ 
+% $$$     size(img,1)/3
+% $$$     
     img = reshape(img,[w,h])';
     
 end    
