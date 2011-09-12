@@ -1,5 +1,5 @@
 function gofr_plots_
-    c = load('~/collids/processed_data/20090503/time_series_gofrs.mat')
+    c = load('~/colloids/processed_data/20090503/time_series_gofrs.mat')
     c = cell2mat(c.time_series_gofrs);
     d = c([7 8 11 13 14 15]);
     gofr_v_T(d)
@@ -7,7 +7,7 @@ function gofr_plots_
     plot_gn_(d,true)
     
     
-    c = load('~/collids/processed_data/20090507/gofr_20090424.mat');
+    c = load('~/colloids/processed_data/20090507/gofr_20090424.mat');
     c = cell2mat(c.gofr_20090424);
     d = c(2:end);
     d = arrayfun(@gofr_analyze,(d));
